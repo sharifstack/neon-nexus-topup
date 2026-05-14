@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neon Nexus - Checkout &amp; Success</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#3c4d00",
+                        "on-background": "#e5e2e3",
+                        "on-secondary-fixed": "#3a0033",
+                        "primary-fixed": "#74f5ff",
+                        "on-surface": "#e5e2e3",
+                        "secondary": "#fface8",
+                        "tertiary": "#efffbb",
+                        "tertiary-fixed": "#c3f400",
+                        "primary-container": "#00f2ff",
+                        "surface": "#131314",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353436",
+                        "on-primary-fixed": "#002022",
+                        "on-primary-container": "#006a71",
+                        "surface-container-lowest": "#0e0e0f",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "surface-container-highest": "#353436",
+                        "on-secondary-fixed-variant": "#840076",
+                        "inverse-on-surface": "#313031",
+                        "on-tertiary": "#283500",
+                        "tertiary-fixed-dim": "#abd600",
+                        "on-primary-fixed-variant": "#004f54",
+                        "primary": "#e1fdff",
+                        "on-secondary-container": "#520049",
+                        "outline": "#849495",
+                        "secondary-fixed-dim": "#fface8",
+                        "on-secondary": "#5e0053",
+                        "surface-container-high": "#2a2a2b",
+                        "on-surface-variant": "#b9cacb",
+                        "on-tertiary-fixed": "#161e00",
+                        "secondary-fixed": "#ffd7f0",
+                        "surface-tint": "#00dbe7",
+                        "inverse-surface": "#e5e2e3",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#00696f",
+                        "error-container": "#93000a",
+                        "secondary-container": "#ff24e4",
+                        "surface-container-low": "#1c1b1c",
+                        "on-error": "#690005",
+                        "primary-fixed-dim": "#00dbe7",
+                        "on-primary": "#00363a",
+                        "surface-container": "#201f20",
+                        "outline-variant": "#3a494b",
+                        "surface-dim": "#131314",
+                        "tertiary-container": "#bdec00",
+                        "on-tertiary-container": "#516800"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "64px",
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "container-max": "1440px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Sora"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Sora"],
+                        "headline-xl": ["Sora"],
+                        "display-lg-mobile": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.0", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0A0A0B; color: #e5e2e3; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow-primary:hover {
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        }
+        .neon-text-primary {
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+        .input-dark {
+            background-color: #050506;
+            border: 1px solid rgba(132, 148, 149, 0.3);
+        }
+        .input-dark:focus {
+            border-color: #00f2ff;
+            box-shadow: inset 0 0 10px rgba(0, 242, 255, 0.2);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Omitted due to Transactional Nature of Checkout -->
+<main class="flex-grow flex flex-col items-center justify-center p-gutter max-w-container-max mx-auto w-full py-xxl relative">
+<!-- Ambient Background Glow -->
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-container/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary-container/10 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- Checkout View -->
+<div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-12 gap-gutter relative z-10 hidden" id="checkout-view">
+<!-- Left Column: Stepper & Details -->
+<div class="md:col-span-7 flex flex-col gap-lg">
+<div class="glass-panel rounded-xl p-xl shadow-2xl flex flex-col gap-xl">
+<!-- Header -->
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-sm">Secure Checkout</h1>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Complete your transaction to unlock your digital assets.</p>
+</div>
+<!-- Stepper -->
+<div class="flex items-center justify-between relative mb-md">
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[2px] bg-surface-variant z-0"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1/2 h-[2px] bg-tertiary-container shadow-[0_0_10px_rgba(189,236,0,0.5)] z-0 transition-all duration-500"></div>
+<div class="relative z-10 flex flex-col items-center gap-xs">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold shadow-[0_0_15px_rgba(189,236,0,0.4)]">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-container">Details</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-xs">
+<div class="w-8 h-8 rounded-full bg-surface-variant border-2 border-tertiary-container text-tertiary-container flex items-center justify-center font-bold shadow-[0_0_15px_rgba(189,236,0,0.4)]">2</div>
+<span class="font-label-sm text-label-sm text-tertiary-container">Payment</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-xs">
+<div class="w-8 h-8 rounded-full bg-surface-variant border-2 border-outline-variant text-on-surface-variant flex items-center justify-center font-bold">3</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Review</span>
+</div>
+</div>
+<!-- Payment Form -->
+<form class="flex flex-col gap-md">
+<h2 class="font-headline-md text-headline-md text-primary mt-sm">Payment Method</h2>
+<!-- Card Selection (Visual Only) -->
+<div class="grid grid-cols-2 gap-sm mb-sm">
+<button class="glass-panel p-md rounded-lg flex items-center justify-center gap-sm border-primary-container shadow-[0_0_15px_rgba(0,242,255,0.2)] bg-surface-container-high" type="button">
+<span class="material-symbols-outlined text-primary-container">credit_card</span>
+<span class="font-label-md text-label-md text-primary-container">Credit Card</span>
+</button>
+<button class="glass-panel p-md rounded-lg flex items-center justify-center gap-sm hover:bg-surface-container-high transition-colors text-on-surface-variant" type="button">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-md text-label-md">Crypto Wallet</span>
+</button>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Card Number</label>
+<div class="relative">
+<input class="input-dark w-full rounded-lg py-md px-md pl-12 text-on-surface font-body-md" placeholder="0000 0000 0000 0000" type="text"/>
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">credit_card</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Expiry Date</label>
+<input class="input-dark w-full rounded-lg py-md px-md text-on-surface font-body-md" placeholder="MM/YY" type="text"/>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">CVC</label>
+<input class="input-dark w-full rounded-lg py-md px-md text-on-surface font-body-md" placeholder="123" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-xs mt-sm">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Cardholder Name</label>
+<input class="input-dark w-full rounded-lg py-md px-md text-on-surface font-body-md" placeholder="J. Doe" type="text"/>
+</div>
+</form>
+</div>
+</div>
+<!-- Right Column: Order Summary -->
+<div class="md:col-span-5 flex flex-col gap-lg">
+<div class="glass-panel rounded-xl p-xl shadow-2xl flex flex-col gap-md sticky top-xl">
+<h2 class="font-headline-md text-headline-md text-primary border-b border-outline-variant/30 pb-sm mb-sm">Order Summary</h2>
+<!-- Items -->
+<div class="flex flex-col gap-md mb-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded bg-surface-container-highest flex items-center justify-center border border-outline-variant/50">
+<span class="material-symbols-outlined text-secondary">sports_esports</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Neon Nexus Pro Pass</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mt-1">Digital Item</span>
+</div>
+</div>
+<span class="font-headline-md text-headline-md text-primary">$49.99</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded bg-surface-container-highest flex items-center justify-center border border-outline-variant/50">
+<span class="material-symbols-outlined text-primary-container">diamond</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">1000 Nexus Credits</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">In-Game Currency</span>
+</div>
+</div>
+<span class="font-headline-md text-headline-md text-primary">$9.99</span>
+</div>
+</div>
+<!-- Coupon Input -->
+<div class="flex gap-sm mb-md">
+<input class="input-dark flex-grow rounded-lg py-sm px-md text-on-surface font-body-sm" placeholder="Enter Coupon Code" type="text"/>
+<button class="bg-surface-container-high hover:bg-surface-bright text-primary-container font-label-md text-label-md px-md rounded-lg transition-colors border border-outline-variant/30">Apply</button>
+</div>
+<!-- Totals -->
+<div class="flex flex-col gap-sm border-t border-outline-variant/30 pt-md">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Subtotal</span>
+<span class="font-body-md text-body-md">$59.98</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md text-body-md">Taxes</span>
+<span class="font-body-md text-body-md">$4.20</span>
+</div>
+<div class="flex justify-between items-center mt-sm">
+<span class="font-headline-md text-headline-md text-on-surface">Total</span>
+<span class="font-headline-xl text-headline-xl text-primary neon-text-primary">$64.18</span>
+</div>
+</div>
+<!-- Action -->
+<button class="w-full bg-gradient-to-r from-primary-container to-blue-500 text-on-primary-container font-headline-md text-headline-md py-md rounded-lg mt-md neon-glow-primary transition-all duration-300 shadow-[0_0_15px_rgba(0,242,255,0.4)] uppercase tracking-wider" onclick="document.getElementById('checkout-view').classList.add('hidden'); document.getElementById('success-view').classList.remove('hidden');">
+                        Confirm Payment
+                    </button>
+<!-- Trust Badges -->
+<div class="flex items-center justify-center gap-sm mt-sm text-outline font-label-sm text-label-sm opacity-70">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span>256-bit Secure SSL Encryption</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Success Modal / View -->
+<div class="w-full max-w-2xl relative z-20" id="success-view">
+<!-- Extremely heavy blur modal feel -->
+<div class="absolute inset-0 bg-surface/80 backdrop-blur-[40px] rounded-2xl z-0 border border-outline-variant/20 shadow-[0_0_50px_rgba(189,236,0,0.15)]"></div>
+<div class="relative z-10 p-xxl flex flex-col items-center text-center gap-xl">
+<!-- Large Neon Checkmark -->
+<div class="relative w-32 h-32 flex items-center justify-center">
+<div class="absolute inset-0 bg-tertiary-container rounded-full blur-[40px] opacity-40"></div>
+<div class="w-24 h-24 rounded-full bg-tertiary-container/20 border-2 border-tertiary-container flex items-center justify-center relative z-10 shadow-[0_0_30px_rgba(189,236,0,0.6)]">
+<span class="material-symbols-outlined text-[64px] text-tertiary-container drop-shadow-[0_0_10px_rgba(189,236,0,0.8)]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- Text Content -->
+<div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-md">Payment Successful!</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto">Your digital assets have been securely delivered to your account inventory.</p>
+</div>
+<!-- Transaction Details Block -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-lg p-md w-full max-w-sm flex flex-col gap-xs text-left shadow-inner">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Transaction ID</span>
+<span class="font-label-md text-label-md text-primary font-mono">#NX-88392A</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Date</span>
+<span class="font-label-md text-label-md text-on-surface">Oct 24, 2024</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Total Amount</span>
+<span class="font-headline-md text-headline-md text-tertiary-container">$64.18</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row gap-md w-full justify-center mt-md">
+<button class="glass-panel border-outline-variant hover:border-primary-container text-primary-container font-headline-md text-headline-md py-md px-xl rounded-lg transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.2)] flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">download</span>
+                        Download Receipt
+                    </button>
+<button class="bg-surface-container-highest hover:bg-surface-bright text-on-surface font-headline-md text-headline-md py-md px-xl rounded-lg transition-colors duration-300 border border-outline-variant/30" onclick="document.getElementById('success-view').classList.add('hidden'); document.getElementById('checkout-view').classList.remove('hidden');">
+                        Return to Home
+                    </button>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-md opacity-60">A confirmation email has been sent to your registered address.</p>
+</div>
+</div>
+</main>
+<!-- Footer Omitted due to Transactional Nature of Checkout -->
+</body></html>

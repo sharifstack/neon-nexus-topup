@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neon Nexus - Admin Analytics Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#3c4d00",
+                        "on-background": "#e5e2e3",
+                        "on-secondary-fixed": "#3a0033",
+                        "primary-fixed": "#74f5ff",
+                        "on-surface": "#e5e2e3",
+                        "secondary": "#fface8",
+                        "tertiary": "#efffbb",
+                        "tertiary-fixed": "#c3f400",
+                        "primary-container": "#00f2ff",
+                        "surface": "#131314",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353436",
+                        "on-primary-fixed": "#002022",
+                        "on-primary-container": "#006a71",
+                        "surface-container-lowest": "#0e0e0f",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "surface-container-highest": "#353436",
+                        "on-secondary-fixed-variant": "#840076",
+                        "inverse-on-surface": "#313031",
+                        "on-tertiary": "#283500",
+                        "tertiary-fixed-dim": "#abd600",
+                        "on-primary-fixed-variant": "#004f54",
+                        "primary": "#e1fdff",
+                        "on-secondary-container": "#520049",
+                        "outline": "#849495",
+                        "secondary-fixed-dim": "#fface8",
+                        "on-secondary": "#5e0053",
+                        "surface-container-high": "#2a2a2b",
+                        "on-surface-variant": "#b9cacb",
+                        "on-tertiary-fixed": "#161e00",
+                        "secondary-fixed": "#ffd7f0",
+                        "surface-tint": "#00dbe7",
+                        "inverse-surface": "#e5e2e3",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#00696f",
+                        "error-container": "#93000a",
+                        "secondary-container": "#ff24e4",
+                        "surface-container-low": "#1c1b1c",
+                        "on-error": "#690005",
+                        "primary-fixed-dim": "#00dbe7",
+                        "on-primary": "#00363a",
+                        "surface-container": "#201f20",
+                        "outline-variant": "#3a494b",
+                        "surface-dim": "#131314",
+                        "tertiary-container": "#bdec00",
+                        "on-tertiary-container": "#516800"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "64px",
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "container-max": "1440px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Sora"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Sora"],
+                        "headline-xl": ["Sora"],
+                        "display-lg-mobile": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.0", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0A0A0B; color: #e5e2e3; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .neon-glow-primary { box-shadow: 0 0 20px rgba(0, 242, 255, 0.15); }
+        .neon-text-primary { text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
+        
+        /* Area Chart CSS Simulation */
+        .chart-area {
+            background: linear-gradient(180deg, rgba(0, 242, 255, 0.2) 0%, rgba(0, 242, 255, 0) 100%);
+            border-top: 2px solid #00f2ff;
+            filter: drop-shadow(0 -4px 12px rgba(0, 242, 255, 0.3));
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden bg-background font-body-md text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col p-md space-y-sm bg-surface-container-lowest/90 dark:bg-surface-container-lowest/90 backdrop-blur-2xl text-primary dark:text-primary font-label-md text-label-md h-screen w-64 fixed left-0 top-0 z-40 border-r border-outline-variant/10 shadow-2xl">
+<!-- Header -->
+<div class="flex items-center gap-md mb-xl px-sm pt-sm">
+<div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center border border-primary/30 shadow-[0_0_10px_rgba(0,242,255,0.2)]">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Admin Panel</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Nexus Control</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-md px-md py-sm bg-primary-container text-on-primary-container rounded-lg font-bold shadow-[0_0_15px_rgba(0,242,255,0.3)] hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant/30 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant/30 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                Inventory
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant/30 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+                Orders
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant/30 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+                Users
+            </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant/30 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<!-- CTA -->
+<div class="mt-auto pt-lg border-t border-outline-variant/10">
+<button class="w-full py-sm px-md bg-surface-variant/50 hover:bg-primary/10 text-primary border border-primary/20 rounded-lg font-label-md text-label-md flex items-center justify-center gap-sm transition-all hover:shadow-[0_0_15px_rgba(0,242,255,0.2)]">
+<span class="material-symbols-outlined text-[18px]">add_chart</span>
+                Generate Report
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-0 md:ml-64 overflow-y-auto bg-[url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&amp;w=2070&amp;auto=format&amp;fit=crop')] bg-cover bg-center bg-fixed bg-no-repeat relative">
+<!-- Dark Overlay for Background Image -->
+<div class="absolute inset-0 bg-[#0A0A0B]/90 backdrop-blur-sm z-0"></div>
+<div class="relative z-10 max-w-container-max mx-auto px-md md:px-gutter py-xl space-y-xl">
+<!-- Page Header -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md mb-xl">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface mb-xs">Analytics Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time performance metrics for Neon Nexus.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="glass-panel rounded-full px-md py-sm flex items-center gap-sm text-on-surface-variant text-label-md font-label-md cursor-pointer hover:bg-surface-variant/40 transition-colors">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                        Last 7 Days
+                        <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+</header>
+<!-- Stats Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- Stat 1 -->
+<div class="glass-panel rounded-xl p-md flex flex-col gap-sm hover:scale-[1.02] transition-transform duration-300 hover:border-primary/40 relative overflow-hidden group">
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/10 rounded-full blur-xl group-hover:bg-primary/20 transition-colors"></div>
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant">Total Revenue</span>
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+</div>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface">$45,200</div>
+<div class="flex items-center gap-xs text-tertiary mt-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="font-label-sm text-label-sm">+12.5% vs last week</span>
+</div>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="glass-panel rounded-xl p-md flex flex-col gap-sm hover:scale-[1.02] transition-transform duration-300 hover:border-primary/40 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant">Total Orders</span>
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+</div>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface">1,240</div>
+<div class="flex items-center gap-xs text-tertiary mt-xs">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="font-label-sm text-label-sm">+5% vs last week</span>
+</div>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="glass-panel rounded-xl p-md flex flex-col gap-sm hover:scale-[1.02] transition-transform duration-300 hover:border-primary/40 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant">Active Users</span>
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">group</span>
+</div>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface">8,500</div>
+<div class="flex items-center gap-xs text-on-surface-variant mt-xs">
+<span class="material-symbols-outlined text-[16px]">horizontal_rule</span>
+<span class="font-label-sm text-label-sm">Steady</span>
+</div>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="glass-panel rounded-xl p-md flex flex-col gap-sm hover:scale-[1.02] transition-transform duration-300 hover:border-error/40 relative overflow-hidden group">
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-error/5 rounded-full blur-xl group-hover:bg-error/10 transition-colors"></div>
+<div class="flex justify-between items-start">
+<span class="font-label-md text-label-md text-on-surface-variant">Pending Tickets</span>
+<div class="w-8 h-8 rounded-full bg-error/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+</div>
+</div>
+<div>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface">12</div>
+<div class="flex items-center gap-xs text-error mt-xs">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="font-label-sm text-label-sm">Requires attention</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-md lg:gap-lg">
+<!-- Revenue Chart Area -->
+<section class="lg:col-span-2 glass-panel rounded-xl p-lg flex flex-col neon-glow-primary">
+<div class="flex justify-between items-center mb-xl">
+<h3 class="font-headline-md text-headline-md font-semibold text-on-surface">Revenue Trends</h3>
+<div class="flex gap-sm">
+<button class="px-sm py-xs text-label-sm font-label-sm bg-surface-variant/50 text-on-surface-variant rounded hover:text-primary transition-colors">D</button>
+<button class="px-sm py-xs text-label-sm font-label-sm bg-primary/20 text-primary rounded border border-primary/30">W</button>
+<button class="px-sm py-xs text-label-sm font-label-sm bg-surface-variant/50 text-on-surface-variant rounded hover:text-primary transition-colors">M</button>
+</div>
+</div>
+<!-- CSS Chart Simulation -->
+<div class="flex-1 relative min-h-[250px] w-full flex items-end">
+<!-- Y-Axis Lines -->
+<div class="absolute inset-0 flex flex-col justify-between border-l border-b border-outline-variant/30 pb-md pl-sm">
+<div class="w-full h-[1px] bg-outline-variant/10 relative"><span class="absolute -left-10 -top-2 text-label-sm text-on-surface-variant text-[10px]">60k</span></div>
+<div class="w-full h-[1px] bg-outline-variant/10 relative"><span class="absolute -left-10 -top-2 text-label-sm text-on-surface-variant text-[10px]">40k</span></div>
+<div class="w-full h-[1px] bg-outline-variant/10 relative"><span class="absolute -left-10 -top-2 text-label-sm text-on-surface-variant text-[10px]">20k</span></div>
+<div class="w-full h-[1px] bg-outline-variant/10 relative"><span class="absolute -left-10 -top-2 text-label-sm text-on-surface-variant text-[10px]">0</span></div>
+</div>
+<!-- Chart Path (Simulated with clip-path and gradient) -->
+<div class="w-full h-[80%] ml-sm mb-md relative z-10 chart-area" style="clip-path: polygon(0 80%, 10% 70%, 20% 90%, 30% 60%, 40% 65%, 50% 40%, 60% 50%, 70% 20%, 80% 30%, 90% 10%, 100% 20%, 100% 100%, 0 100%);"></div>
+<!-- X-Axis Labels -->
+<div class="absolute bottom-0 left-sm right-0 flex justify-between text-label-sm text-on-surface-variant text-[10px] px-sm">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+</section>
+<!-- Top Selling Games -->
+<section class="glass-panel rounded-xl p-lg flex flex-col">
+<h3 class="font-headline-md text-headline-md font-semibold text-on-surface mb-lg">Top Titles</h3>
+<div class="flex flex-col gap-md flex-1">
+<!-- Game Item 1 -->
+<div class="flex items-center gap-md p-sm rounded-lg hover:bg-surface-variant/30 transition-colors">
+<div class="w-12 h-12 rounded bg-surface border border-outline-variant/30 overflow-hidden shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">sports_esports</span>
+</div>
+<div class="flex-1">
+<div class="font-label-md text-label-md text-on-surface">PUBG Mobile UC</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">450 Sales</div>
+</div>
+<div class="font-body-md text-body-md font-semibold text-primary">$12,400</div>
+</div>
+<!-- Game Item 2 -->
+<div class="flex items-center gap-md p-sm rounded-lg hover:bg-surface-variant/30 transition-colors">
+<div class="w-12 h-12 rounded bg-surface border border-outline-variant/30 overflow-hidden shrink-0 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">sports_esports</span>
+</div>
+<div class="flex-1">
+<div class="font-label-md text-label-md text-on-surface">Valorant Points</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">320 Sales</div>
+</div>
+<div class="font-body-md text-body-md font-semibold text-secondary">$8,950</div>
+</div>
+<!-- Game Item 3 -->
+<div class="flex items-center gap-md p-sm rounded-lg hover:bg-surface-variant/30 transition-colors">
+<div class="w-12 h-12 rounded bg-surface border border-outline-variant/30 overflow-hidden shrink-0 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">sports_esports</span>
+</div>
+<div class="flex-1">
+<div class="font-label-md text-label-md text-on-surface">Free Fire Diamonds</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">280 Sales</div>
+</div>
+<div class="font-body-md text-body-md font-semibold text-tertiary">$5,200</div>
+</div>
+<!-- View All -->
+<button class="mt-auto w-full py-sm text-center font-label-md text-label-md text-primary hover:text-primary-container transition-colors">
+                            View All Inventory →
+                        </button>
+</div>
+</section>
+</div>
+<!-- Recent Orders Table -->
+<section class="glass-panel rounded-xl overflow-hidden flex flex-col">
+<div class="p-lg flex justify-between items-center border-b border-outline-variant/20 bg-surface/50">
+<h3 class="font-headline-md text-headline-md font-semibold text-on-surface">Recent Transactions</h3>
+<button class="flex items-center gap-xs font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filter
+                    </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-variant/20 border-b border-outline-variant/30 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="p-md font-medium">Order ID</th>
+<th class="p-md font-medium">Game Title</th>
+<th class="p-md font-medium">Customer</th>
+<th class="p-md font-medium">Amount</th>
+<th class="p-md font-medium">Status</th>
+<th class="p-md font-medium text-right">Action</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-variant/20 transition-colors group">
+<td class="p-md font-mono text-sm text-on-surface-variant">#NN-8901</td>
+<td class="p-md flex items-center gap-sm">
+<div class="w-6 h-6 rounded bg-primary/10 flex items-center justify-center text-primary text-[12px]"><span class="material-symbols-outlined text-[14px]">token</span></div>
+                                    PUBG Mobile 600 UC
+                                </td>
+<td class="p-md">alex_gamer99</td>
+<td class="p-md font-semibold text-primary">$9.99</td>
+<td class="p-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-label-sm font-semibold bg-tertiary/10 text-tertiary border border-tertiary/20">
+                                        Success
+                                    </span>
+</td>
+<td class="p-md text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-all"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-variant/20 transition-colors group">
+<td class="p-md font-mono text-sm text-on-surface-variant">#NN-8900</td>
+<td class="p-md flex items-center gap-sm">
+<div class="w-6 h-6 rounded bg-secondary/10 flex items-center justify-center text-secondary text-[12px]"><span class="material-symbols-outlined text-[14px]">token</span></div>
+                                    Valorant 1000 VP
+                                </td>
+<td class="p-md">sniper_elite</td>
+<td class="p-md font-semibold text-primary">$10.50</td>
+<td class="p-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-label-sm font-semibold bg-primary/10 text-primary border border-primary/20 shadow-[0_0_10px_rgba(0,242,255,0.2)]">
+                                        Pending
+                                    </span>
+</td>
+<td class="p-md text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-all"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-variant/20 transition-colors group">
+<td class="p-md font-mono text-sm text-on-surface-variant">#NN-8899</td>
+<td class="p-md flex items-center gap-sm">
+<div class="w-6 h-6 rounded bg-surface-bright flex items-center justify-center text-on-surface text-[12px]"><span class="material-symbols-outlined text-[14px]">token</span></div>
+                                    Roblox 800 Robux
+                                </td>
+<td class="p-md">koolkid2010</td>
+<td class="p-md font-semibold text-primary">$10.00</td>
+<td class="p-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-label-sm font-semibold bg-error/10 text-error border border-error/20">
+                                        Failed
+                                    </span>
+</td>
+<td class="p-md text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-all"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-variant/20 transition-colors group">
+<td class="p-md font-mono text-sm text-on-surface-variant">#NN-8898</td>
+<td class="p-md flex items-center gap-sm">
+<div class="w-6 h-6 rounded bg-tertiary/10 flex items-center justify-center text-tertiary text-[12px]"><span class="material-symbols-outlined text-[14px]">token</span></div>
+                                    Free Fire 520 Dias
+                                </td>
+<td class="p-md">juan_pro</td>
+<td class="p-md font-semibold text-primary">$5.50</td>
+<td class="p-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-label-sm font-semibold bg-tertiary/10 text-tertiary border border-tertiary/20">
+                                        Success
+                                    </span>
+</td>
+<td class="p-md text-right">
+<button class="text-on-surface-variant hover:text-primary opacity-0 group-hover:opacity-100 transition-all"><span class="material-symbols-outlined text-[20px]">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface/30 border-t border-outline-variant/20 flex justify-center">
+<button class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs">
+                        Load More <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+</div>
+</section>
+<div class="h-xl"></div> <!-- Bottom padding spacer -->
+</div>
+</main>
+</body></html>

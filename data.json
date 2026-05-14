@@ -1,0 +1,367 @@
+{
+  "users": [
+    {
+      "id": "admin-1",
+      "name": "Sharif Admin",
+      "email": "sharifstack@gmail.com",
+      "passwordHash": "$2b$10$zcpbkem/R3KA4UN3lo0HQ.U7fOQI4NZ0ByHUSpa9AVZ4dHaEQl2/C",
+      "points": 999999,
+      "twoFactorEnabled": false,
+      "isVerified": true,
+      "role": "admin"
+    },
+    {
+      "id": "4111ecfc-7d8d-4eab-ad1b-24347f08c356",
+      "name": "dave",
+      "email": "dehokemeve@mailinator.com",
+      "passwordHash": "$2b$10$mbqP3A9enNzTzZnhFvkyaOCy9zSOprA9WYpsT9DmLQb4Whj8ll7ji",
+      "points": 0,
+      "twoFactorEnabled": false,
+      "isVerified": true,
+      "role": "user"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "c56580b3440ac226585ac1398f46fc4083ab6ea4743f5b104b524f3e197d3727",
+      "userId": "admin-1",
+      "expiresAt": 1779376488176
+    }
+  ],
+  "transactions": [
+    {
+      "id": "NX-969B7EC8",
+      "amount": 101.5,
+      "pointsEarned": 1015,
+      "description": "Pubg Mobile - 60 UC for ID: 4376274626427862",
+      "date": "2026-05-14T16:32:03.244Z",
+      "status": "Success"
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "bkash",
+      "name": "bKash",
+      "logo": "💳",
+      "fee": 0.015,
+      "description": "Mobile banking"
+    },
+    {
+      "id": "nagad",
+      "name": "Nagad",
+      "logo": "📱",
+      "fee": 0.01,
+      "description": "Digital wallet"
+    },
+    {
+      "id": "rocket",
+      "name": "Rocket",
+      "logo": "🚀",
+      "fee": 0.01,
+      "description": "Dutch Bangla"
+    },
+    {
+      "id": "card",
+      "name": "Card Payment",
+      "logo": "💳",
+      "fee": 0.025,
+      "description": "Visa / Mastercard"
+    }
+  ],
+  "games": [
+    {
+      "id": "pubg-mobile",
+      "name": "PUBG MOBILE",
+      "coverImage": "https://cdn2.steamgriddb.com/thumb/13816ba0dd3a36209cbc3cfef265dc7c.jpg",
+      "bannerImage": "https://cdn2.steamgriddb.com/hero/pubgm.jpg",
+      "tag": "EXTRA DISCOUNT",
+      "tagColor": "discount",
+      "category": "All Games",
+      "currency": "UC",
+      "description": "The official PUBG Mobile top-up store. Get your UC instantly.",
+      "packages": [
+        {
+          "id": "pubgm-60",
+          "gameId": "pubg-mobile",
+          "name": "60 UC",
+          "price": 0.99
+        },
+        {
+          "id": "pubgm-325",
+          "gameId": "pubg-mobile",
+          "name": "325 UC",
+          "price": 4.99,
+          "bonus": "+25 UC Bonus"
+        },
+        {
+          "id": "pubgm-660",
+          "gameId": "pubg-mobile",
+          "name": "660 UC",
+          "price": 9.99,
+          "bonus": "+60 UC Bonus",
+          "popular": true
+        }
+      ]
+    },
+    {
+      "id": "clash-of-clans",
+      "name": "CLASH OF CLANS",
+      "coverImage": "https://m.media-amazon.com/images/M/MV5BYWMyYzc5ZWEtOTk1ZS00NzFlLTkwNjEtZmVhMzlhNDhkMmQ5XkEyXkFqcGc@._V1_.jpg",
+      "bannerImage": "https://supercell.com/images/85/clashofclans_og.jpg",
+      "category": "All Games",
+      "currency": "Gems",
+      "description": "Official Clash of Clans gems top-up. Build your village and dominate!",
+      "packages": [
+        {
+          "id": "coc-500",
+          "gameId": "clash-of-clans",
+          "name": "500 Gems",
+          "price": 4.99
+        },
+        {
+          "id": "coc-1200",
+          "gameId": "clash-of-clans",
+          "name": "1200 Gems",
+          "price": 9.99,
+          "popular": true
+        }
+      ]
+    },
+    {
+      "id": "mobile-legends",
+      "name": "MOBILE LEGENDS",
+      "coverImage": "https://cdn2.steamgriddb.com/grid/mlbb.jpg",
+      "bannerImage": "https://cdn2.steamgriddb.com/hero/mlbb.jpg",
+      "tag": "EXTRA BONUS",
+      "tagColor": "bonus",
+      "category": "All Games",
+      "currency": "Diamonds",
+      "requiresZoneId": true,
+      "description": "Top up Mobile Legends Bang Bang Diamonds. Fast and secure.",
+      "packages": [
+        {
+          "id": "mlbb-50",
+          "gameId": "mobile-legends",
+          "name": "50 Diamonds",
+          "price": 0.99
+        },
+        {
+          "id": "mlbb-570",
+          "gameId": "mobile-legends",
+          "name": "570 Diamonds",
+          "price": 9.99,
+          "bonus": "+30 Diamonds",
+          "popular": true
+        }
+      ]
+    },
+    {
+      "id": "free-fire",
+      "name": "FREE FIRE",
+      "coverImage": "https://cdn2.steamgriddb.com/grid/freefire.jpg",
+      "bannerImage": "https://cdn2.steamgriddb.com/hero/freefire.jpg",
+      "tag": "EXTRA BONUS",
+      "tagColor": "star",
+      "category": "All Games",
+      "currency": "Diamonds",
+      "description": "Official Free Fire diamond top-up. Get exclusive skins and items.",
+      "packages": [
+        {
+          "id": "ff-100",
+          "gameId": "free-fire",
+          "name": "100 Diamonds",
+          "price": 0.99
+        },
+        {
+          "id": "ff-1060",
+          "gameId": "free-fire",
+          "name": "1060 Diamonds",
+          "price": 9.99,
+          "bonus": "+60 Diamonds",
+          "popular": true
+        }
+      ]
+    },
+    {
+      "id": "genshin-impact",
+      "name": "GENSHIN IMPACT",
+      "coverImage": "https://cdn2.steamgriddb.com/grid/genshin.jpg",
+      "bannerImage": "https://cdn2.steamgriddb.com/hero/genshin.jpg",
+      "tag": "EXTRA BONUS",
+      "tagColor": "bonus",
+      "category": "Entertainment",
+      "currency": "Genesis Crystals",
+      "description": "Top up Genesis Crystals for Genshin Impact and unlock all content.",
+      "packages": [
+        {
+          "id": "gi-60",
+          "gameId": "genshin-impact",
+          "name": "60 Crystals",
+          "price": 0.99
+        },
+        {
+          "id": "gi-980",
+          "gameId": "genshin-impact",
+          "name": "980 Crystals",
+          "price": 14.99,
+          "popular": true
+        }
+      ]
+    },
+    {
+      "id": "valorant",
+      "name": "VALORANT",
+      "coverImage": "https://cdn2.steamgriddb.com/grid/valorant.jpg",
+      "bannerImage": "https://cdn2.steamgriddb.com/hero/valorant.jpg",
+      "category": "All Games",
+      "currency": "VP",
+      "description": "Buy Valorant Points and get exclusive weapon skins and agents.",
+      "packages": [
+        {
+          "id": "vp-1000",
+          "gameId": "valorant",
+          "name": "1000 VP",
+          "price": 9.99,
+          "popular": true
+        }
+      ]
+    },
+    {
+      "id": "pool-city",
+      "name": "POOL CITY - 8 BALL",
+      "coverImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKlBLtddQcBiRMcE3F-fVNdC3DokjYxWgKqw&s",
+      "bannerImage": "https://www.midasbuy.com/static/images/mini_game/pool_city_bg.jpg",
+      "category": "Mini Game",
+      "tag": "Mini Games",
+      "description": "No app download needed! Play instantly on Neon Nexus!",
+      "isFeaturedMiniGame": true,
+      "featuredBackgroundUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWZibXB4bmZzZ3R5enpndnpndnpndnpndnpndnpndnpndnpndnpndnpndnp/l41lTfhuXbY0S6Y7S/giphy.gif",
+      "playUrl": "https://game.neon-nexus.com/pool",
+      "packages": [
+        {
+          "id": "pool-100",
+          "gameId": "pool-city",
+          "name": "100 Coins",
+          "price": 0.99
+        }
+      ]
+    },
+    {
+      "id": "ludo-world",
+      "name": "LUDO WORLD",
+      "coverImage": "https://play-lh.googleusercontent.com/cJ-448ovtGs12hh6wxxw9B-EucZvr0J3ZYkv3Ab6ME5HLMjTG3mYR9mwav9RcS1w3w",
+      "bannerImage": "https://www.midasbuy.com/static/images/mini_game/ludo_world_bg.jpg",
+      "category": "Mini Game",
+      "tag": "Mini Games",
+      "description": "Classical Ludo game with modern twists. Play with friends!",
+      "featuredBackgroundUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWZibXB4bmZzZ3R5enpndnpndnpndnpndnpndnpndnpndnpndnpndnpndnp/v1/giphy.gif",
+      "playUrl": "https://game.neon-nexus.com/ludo",
+      "packages": [
+        {
+          "id": "ludo-50",
+          "gameId": "ludo-world",
+          "name": "50 Tokens",
+          "price": 0.99
+        }
+      ]
+    },
+    {
+      "id": "ludo-king",
+      "name": "LUDO KING",
+      "coverImage": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Ludo_King.png/250px-Ludo_King.png",
+      "bannerImage": "https://midasbuy.akamaized.net/static/images/mini_game/ludo_king_bg.jpg",
+      "category": "Mini Game",
+      "tag": "Mini Games",
+      "description": "The #1 Ludo game on mobile. Join millions of players worldwide!",
+      "featuredBackgroundUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWZibXB4bmZzZ3R5enpndnpndnpndnpndnpndnpndnpndnpndnpndnpndnp/3o7TKVUn7iM8FMEU24/giphy.gif",
+      "playUrl": "https://game.neon-nexus.com/ludo-king",
+      "packages": [
+        {
+          "id": "lk-100",
+          "gameId": "ludo-king",
+          "name": "100 Gems",
+          "price": 0.99
+        }
+      ]
+    },
+    {
+      "id": "eight-ball-pool",
+      "name": "8 BALL POOL",
+      "coverImage": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/8_Ball_Pool_cover.jpg/250px-8_Ball_Pool_cover.jpg",
+      "bannerImage": "https://midasbuy.akamaized.net/static/images/mini_game/8ball_pool_bg.jpg",
+      "category": "Mini Game",
+      "tag": "Mini Games",
+      "description": "The world's #1 pool game! Challenge friends or play in tournaments.",
+      "featuredBackgroundUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWZibXB4bmZzZ3R5enpndnpndnpndnpndnpndnpndnpndnpndnpndnpndnp/l41lTfhuXbY0S6Y7S/giphy.gif",
+      "playUrl": "https://game.neon-nexus.com/8ball",
+      "packages": [
+        {
+          "id": "8bp-100",
+          "gameId": "eight-ball-pool",
+          "name": "100 Cash",
+          "price": 1.99
+        }
+      ]
+    },
+    {
+      "id": "candy-match",
+      "name": "CANDY MATCH 3",
+      "coverImage": "https://play-lh.googleusercontent.com/u_S3KuxzucT_n2muyOluFK2rmss8IdKGZ3zZX_2Uhjd5YczdSQ5u5-HUvICbUXkCHTY",
+      "bannerImage": "https://midasbuy.akamaized.net/static/images/mini_game/candy_match_bg.jpg",
+      "category": "Mini Game",
+      "tag": "Mini Games",
+      "description": "Sweetest puzzle game ever! Match candies to clear levels.",
+      "featuredBackgroundUrl": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWZibXB4bmZzZ3R5enpndnpndnpndnpndnpndnpndnpndnpndnpndnpndnp/3o7TKD8f6Tf5E9O_fG/giphy.gif",
+      "playUrl": "https://game.neon-nexus.com/candy",
+      "packages": [
+        {
+          "id": "cm-10",
+          "gameId": "candy-match",
+          "name": "10 Boosters",
+          "price": 0.99
+        }
+      ]
+    }
+  ],
+  "flashDeals": [
+    {
+      "id": "flash-valorant",
+      "gameId": "valorant",
+      "title": "Valorant",
+      "offerTitle": "2000 VP + 500 Bonus",
+      "bonusText": "60% OFF OVERRIDE",
+      "originalPrice": 24.99,
+      "discountedPrice": 9.99,
+      "stockStatus": 85,
+      "limitedQuantity": "Only 40 Left",
+      "backgroundMedia": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaTNlbHJ1aTFya2I4Yng2YjNxcnFqMGRzbTlhemw1bjZ0bjRsdThjMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eV08lydIMcTftXX3vi/giphy.gif",
+      "endsAt": "DAILY_RESET"
+    }
+  ],
+  "liveDrops": [
+    {
+      "id": "drop-ff",
+      "gameId": "free-fire",
+      "name": "Free Fire",
+      "description": "1080 Diamonds + Elite Pass",
+      "image": "https://cdn2.steamgriddb.com/hero/freefire.jpg",
+      "badge": "Limited"
+    },
+    {
+      "id": "drop-roblox",
+      "gameId": "roblox",
+      "name": "Roblox",
+      "description": "4500 Robux Premium Pack",
+      "image": "https://cdn2.steamgriddb.com/hero/roblox.jpg",
+      "badge": "Almost Gone"
+    },
+    {
+      "id": "drop-mlbb",
+      "gameId": "mobile-legends",
+      "name": "Mobile Legends",
+      "description": "Starlight Member + 3000 Diamonds",
+      "image": "https://cdn2.steamgriddb.com/hero/mlbb.jpg",
+      "badge": "Restocked"
+    }
+  ]
+}

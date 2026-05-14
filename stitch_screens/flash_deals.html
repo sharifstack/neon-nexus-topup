@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neon Nexus - Flash Deals</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#3c4d00",
+                        "on-background": "#e5e2e3",
+                        "on-secondary-fixed": "#3a0033",
+                        "primary-fixed": "#74f5ff",
+                        "on-surface": "#e5e2e3",
+                        "secondary": "#fface8",
+                        "tertiary": "#efffbb",
+                        "tertiary-fixed": "#c3f400",
+                        "primary-container": "#00f2ff",
+                        "surface": "#131314",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353436",
+                        "on-primary-fixed": "#002022",
+                        "on-primary-container": "#006a71",
+                        "surface-container-lowest": "#0e0e0f",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "surface-container-highest": "#353436",
+                        "on-secondary-fixed-variant": "#840076",
+                        "inverse-on-surface": "#313031",
+                        "on-tertiary": "#283500",
+                        "tertiary-fixed-dim": "#abd600",
+                        "on-primary-fixed-variant": "#004f54",
+                        "primary": "#e1fdff",
+                        "on-secondary-container": "#520049",
+                        "outline": "#849495",
+                        "secondary-fixed-dim": "#fface8",
+                        "on-secondary": "#5e0053",
+                        "surface-container-high": "#2a2a2b",
+                        "on-surface-variant": "#b9cacb",
+                        "on-tertiary-fixed": "#161e00",
+                        "secondary-fixed": "#ffd7f0",
+                        "surface-tint": "#00dbe7",
+                        "inverse-surface": "#e5e2e3",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#00696f",
+                        "error-container": "#93000a",
+                        "secondary-container": "#ff24e4",
+                        "surface-container-low": "#1c1b1c",
+                        "on-error": "#690005",
+                        "primary-fixed-dim": "#00dbe7",
+                        "on-primary": "#00363a",
+                        "surface-container": "#201f20",
+                        "outline-variant": "#3a494b",
+                        "surface-dim": "#131314",
+                        "tertiary-container": "#bdec00",
+                        "on-tertiary-container": "#516800"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "64px",
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "container-max": "1440px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Sora"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Sora"],
+                        "headline-xl": ["Sora"],
+                        "display-lg-mobile": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.0", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .neon-glow-magenta {
+            box-shadow: 0 0 24px rgba(255, 36, 228, 0.4);
+        }
+        .neon-glow-lime {
+            box-shadow: 0 0 20px rgba(195, 244, 0, 0.3);
+        }
+        .neon-text-magenta {
+            text-shadow: 0 0 15px rgba(255, 36, 228, 0.6);
+        }
+        .neon-text-lime {
+            text-shadow: 0 0 15px rgba(195, 244, 0, 0.6);
+        }
+        
+        /* Pulse Animation fallback if purely visual */
+        @keyframes pulse-border-lime {
+            0% { border-color: rgba(195, 244, 0, 0.4); box-shadow: 0 0 10px rgba(195, 244, 0, 0.2); }
+            50% { border-color: rgba(195, 244, 0, 1); box-shadow: 0 0 25px rgba(195, 244, 0, 0.5); }
+            100% { border-color: rgba(195, 244, 0, 0.4); box-shadow: 0 0 10px rgba(195, 244, 0, 0.2); }
+        }
+        .animate-pulse-lime {
+            animation: pulse-border-lime 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar Shared Component -->
+<nav class="bg-surface/80 dark:bg-surface/80 backdrop-blur-xl docked full-width top-0 sticky z-50 border-b border-outline-variant/20 shadow-[0_0_20px_rgba(0,242,255,0.1)]">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20">
+<!-- Brand -->
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-extrabold tracking-tighter text-primary dark:text-primary-container">NEON NEXUS</span>
+</div>
+<!-- Navigation Links (Desktop) -->
+<div class="hidden md:flex items-center gap-xl">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="#">Marketplace</a>
+<!-- Active Nav Item based on Intent -->
+<a class="font-body-md text-body-md text-primary dark:text-primary font-bold border-b-2 border-primary pb-1 hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="#">Promos</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="#">Support</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="#">Wallet</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-md">
+<button class="hidden md:flex font-body-md text-body-md text-primary dark:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)] border border-primary px-4 py-2 rounded-lg">Top Up</button>
+<div class="flex items-center gap-sm">
+<button class="text-primary dark:text-primary hover:scale-105 transition-all duration-300 p-2 rounded-full hover:bg-surface-variant/50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="text-primary dark:text-primary hover:scale-105 transition-all duration-300 p-2 rounded-full hover:bg-surface-variant/50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_balance_wallet</span>
+</button>
+</div>
+<!-- Profile Image Placeholder -->
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline-variant/30 hover:scale-105 transition-all duration-300 cursor-pointer ml-sm">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A futuristic digital avatar portrait of a gamer wearing sleek, glowing neon visor glasses. The lighting is dramatic and cyberpunk, with deep shadows and bright cyan rim lighting against a pitch-black background. The style is highly detailed and polished, resembling high-end video game concept art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX4iH3_wJYd2jJNAoKdJVj3WUzu_Xn18zWBzYQ5e3HC1OAp7Uy8PYuKptthHt3TRE-_39dIthT_pTISMs6xkAo1HiU_kgvY7C-CRNzaTbjG4Xa_5OHiRaATL5zSxuZxOKKT1wXBQlGX7cyVajukVSOzYYc1VUGW3L-7qAmPcuC3dWwjUw8JdnrIVhakPgRDlPzmQdbUZY9tcneiHtdj-s0DVJRRgiXR1zBVRxi4cdw6HIFWI-ZV7KYsFuCRb61rAAvHsjf_GnACHY"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full pb-xxl">
+<!-- Hero Section -->
+<section class="w-full pt-xxl pb-xl px-gutter max-w-container-max mx-auto text-center relative">
+<!-- Ambient Glow -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-secondary-container/10 rounded-full blur-[100px] -z-10"></div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-md tracking-tight uppercase">
+                Flash <span class="text-secondary-container neon-text-magenta">Deals</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-xl">
+                Limited time offers on premium top-ups. Secure your digital arsenal before the clock runs out.
+            </p>
+<!-- Countdown Timer -->
+<div class="inline-flex flex-col items-center glass-panel rounded-xl px-xl py-lg neon-glow-magenta border-secondary/30 border">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mb-xs">Ends In</span>
+<div class="font-headline-xl text-headline-xl text-secondary-container flex items-center gap-sm">
+<div class="flex flex-col items-center">
+<span>04</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">HRS</span>
+</div>
+<span class="pb-md text-secondary/50">:</span>
+<div class="flex flex-col items-center">
+<span>12</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">MIN</span>
+</div>
+<span class="pb-md text-secondary/50">:</span>
+<div class="flex flex-col items-center">
+<span>59</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">SEC</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Flash Deal -->
+<section class="px-gutter max-w-container-max mx-auto mb-xxl">
+<div class="glass-panel rounded-xl overflow-hidden relative group">
+<!-- Background Image & Overlay -->
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest via-surface-container-lowest/80 to-transparent z-10"></div>
+<img alt="Featured Game Art" class="w-full h-full object-cover object-right opacity-60 mix-blend-luminosity" data-alt="A sweeping, cinematic landscape from a tactical shooter video game, showing a highly detailed, futuristic urban environment at twilight. The scene features glowing neon signs reflecting off slick, wet asphalt. The color palette is dominated by deep obsidian shadows and sharp, vibrant magenta and lime accents. The mood is tense and competitive." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk6lONI_QgIaqbtXC457Mvn5KlHCqf0JOfssdiNXyJcXSsON0gQghm4eL_h_yNNZM9l-Ey2NW437DQXeNp8XXUi3BWSCvli4KZuJ9M4E8_LysOb0Vs1zggRvuVv7JYLXcdFl7kDsQT4rpgWis4LQT1WnBCwrFHuAOBp5hPpU_76Dz4qfHuQh_nvzje-nSUwZyi67WzdeU3j7RGM2TvLVZaepgkCngyTVggMFX7thodcAkolkqSCJhUYM9Jjr-JYE3QVFM5Esj1ZYM"/>
+</div>
+<div class="relative z-10 p-xl md:p-xxl flex flex-col md:flex-row items-center justify-between gap-xl">
+<div class="flex-1 w-full">
+<!-- Badge -->
+<div class="inline-flex items-center gap-xs bg-secondary-container text-on-secondary-container font-label-md text-label-md px-md py-xs rounded-full mb-md neon-glow-magenta shadow-lg">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                            60% OFF OVERRIDE
+                        </div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-sm">Valorant <br/><span class="text-primary-container">2000 VP + 500 Bonus</span></h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl max-w-md">The ultimate tactical advantage. Equip premium skins and radiant variants at a fraction of the cost.</p>
+<!-- Progress Bar -->
+<div class="w-full max-w-md mb-lg">
+<div class="flex justify-between font-label-sm text-label-sm text-on-surface mb-xs">
+<span>Stock Status</span>
+<span class="text-tertiary-fixed font-bold">85% Claimed</span>
+</div>
+<div class="w-full h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-fixed rounded-full w-[85%] neon-glow-lime"></div>
+</div>
+</div>
+<!-- Action -->
+<div class="flex items-end gap-md">
+<div>
+<span class="block font-label-sm text-label-sm text-outline line-through mb-xs">$24.99</span>
+<span class="font-headline-lg text-headline-lg text-tertiary-fixed neon-text-lime">$9.99</span>
+</div>
+<button class="ml-auto md:ml-xl px-xl py-md bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md rounded-lg uppercase tracking-wide animate-pulse-lime hover:bg-tertiary hover:scale-105 transition-all duration-300">
+                                Secure Deal
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Deals Grid -->
+<section class="px-gutter max-w-container-max mx-auto mb-xxl">
+<h3 class="font-headline-lg text-headline-lg text-on-surface border-b border-outline-variant/30 pb-sm mb-lg">Live Drops</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Deal Card 1: Free Fire -->
+<div class="glass-panel rounded-lg overflow-hidden flex flex-col group hover:-translate-y-1 transition-transform duration-300 hover:shadow-[0_0_30px_rgba(195,244,0,0.15)]">
+<div class="h-48 relative overflow-hidden bg-surface-container-high">
+<div class="absolute top-md left-md z-10 bg-secondary px-sm py-xs rounded text-on-secondary font-label-sm text-label-sm uppercase tracking-wider font-bold shadow-lg shadow-secondary/20">
+                            Flash Alert
+                        </div>
+<img alt="Free Fire Art" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-300 group-hover:scale-105" data-alt="A stylized, action-packed illustration representing a battle royale video game. Characters are seen mid-combat dropping from the sky over a lush but war-torn tropical island. The color grading leans heavy into dark, atmospheric shadows punctuated by bright, aggressive neon magenta and electric lime visual effects from weapon fire. The style is 3D rendered and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCnazFGRpiEfDxEjXR6nJiH6W5L_AbGr5d2WdKoWFO4FPNtRqPZruelFS6kSos5CNtw0xXg1OKjvtN0u695HuIa9QbPna19iFpEw0-uFdwFR_bzwvuDoaWO26r6wF8aneVKG4AhfsUE7RXsuupQz_yNIcOqiSwMgGkt7sZPF1TwbJuAzC6_SWf7maPhaUO8i69wB6eCSTvqvAEPEQATVa4KWBpJfsuB-kOn-EiR0jfoUiWQIfJfN_eRLM6iTvP4V3BtqmPh7Uu8ow"/>
+</div>
+<div class="p-md flex flex-col flex-grow relative">
+<!-- Limited Stock Indicator -->
+<div class="absolute -top-3 right-md bg-surface border border-outline-variant px-sm py-xs rounded-full flex items-center gap-xs font-label-sm text-label-sm text-secondary-container">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+                            Only 40 Left
+                        </div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs mt-sm">Free Fire</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">1080 Diamonds + Elite Pass</p>
+<div class="mt-auto flex items-center justify-between pt-md border-t border-outline-variant/20">
+<div>
+<del class="font-label-sm text-label-sm text-outline block">$14.99</del>
+<span class="font-headline-md text-headline-md text-tertiary-fixed">$5.99</span>
+</div>
+<button class="p-sm bg-surface-container-highest border border-tertiary-fixed/50 text-tertiary-fixed rounded-lg hover:bg-tertiary-fixed hover:text-on-tertiary-fixed transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart_checkout</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Deal Card 2: Roblox -->
+<div class="glass-panel rounded-lg overflow-hidden flex flex-col group hover:-translate-y-1 transition-transform duration-300 hover:shadow-[0_0_30px_rgba(195,244,0,0.15)]">
+<div class="h-48 relative overflow-hidden bg-surface-container-high">
+<div class="absolute top-md left-md z-10 bg-secondary px-sm py-xs rounded text-on-secondary font-label-sm text-label-sm uppercase tracking-wider font-bold shadow-lg shadow-secondary/20">
+                            Flash Alert
+                        </div>
+<img alt="Roblox Art" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-300 group-hover:scale-105" data-alt="An abstract, high-end 3D rendering of blocky, voxel-like geometric structures floating in a dark, infinite cyber-space void. The blocks are constructed from dark glass and matte black materials, illuminated internally by intense neon magenta and acid lime light sources. The aesthetic is sophisticated, dark-mode, and subtly playful." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6XgJzucmvO_I6tPat7nAfpOhu8MCl7L8hq3qex4GM80tm229VdJaBnn-BMil2EFOb0OcnH0YJluGhYWx6hLs6CLwjN45pWteMhqo9kYUhSPOn4lPvP0bPY3kjEADD0-ZmahqYIHBIMeMVYIXA1wN1SNqYiKIyyltKSnyal2X3rLZ578TCBoklQNukGjArnnf3CGJdXlIMeOZQVI_kkBIKxuaznWLi2q6_4n0p95_Oj6McAFpQbZdVbUXqj8NFR0_UwkL2THuJryA"/>
+</div>
+<div class="p-md flex flex-col flex-grow relative">
+<div class="absolute -top-3 right-md bg-surface border border-outline-variant px-sm py-xs rounded-full flex items-center gap-xs font-label-sm text-label-sm text-secondary-container">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+                            Almost Gone
+                        </div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs mt-sm">Roblox</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">4500 Robux Premium Pack</p>
+<div class="mt-auto flex items-center justify-between pt-md border-t border-outline-variant/20">
+<div>
+<del class="font-label-sm text-label-sm text-outline block">$49.99</del>
+<span class="font-headline-md text-headline-md text-tertiary-fixed">$22.50</span>
+</div>
+<button class="p-sm bg-surface-container-highest border border-tertiary-fixed/50 text-tertiary-fixed rounded-lg hover:bg-tertiary-fixed hover:text-on-tertiary-fixed transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart_checkout</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Deal Card 3: Mobile Legends -->
+<div class="glass-panel rounded-lg overflow-hidden flex flex-col group hover:-translate-y-1 transition-transform duration-300 hover:shadow-[0_0_30px_rgba(195,244,0,0.15)]">
+<div class="h-48 relative overflow-hidden bg-surface-container-high">
+<div class="absolute top-md left-md z-10 bg-secondary px-sm py-xs rounded text-on-secondary font-label-sm text-label-sm uppercase tracking-wider font-bold shadow-lg shadow-secondary/20">
+                            Flash Alert
+                        </div>
+<img alt="Mobile Legends Art" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-300 group-hover:scale-105" data-alt="A dark fantasy digital painting showing a glowing, magical crystal weapon resting on an ancient, cracked stone pedestal. The surrounding environment is pitch black, emphasizing the luminous energy emitting from the crystal. The lighting highlights are primarily sharp neon magenta and striking acid lime, adhering to a premium, dark-mode cyber-luxe aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqB9yi6kEXh6vwrIwnocG6O26NegI6Dq0zttTqTD_Q9dAqTSDqIInqjIfjOO0MTH_wgxI2DbiMzdT7NJ8-jBfFrD07EIvHkORG-Z7y0_7jtmuo352oSoW97B2uYZQ_54vy0jwnMx8D4DAVyVJ1lJygA-w8Xv11E3RTWj3gHNwxodFz-Z1Rv2cHVOf6RJkKQ0WyI21GAt5aA_tNXiJURgQd54biClH0dI3GibJGeFrOtjR-2siaZi9pYVlXekUqh-cLPtxLYb5nwlk"/>
+</div>
+<div class="p-md flex flex-col flex-grow relative">
+<div class="absolute -top-3 right-md bg-surface border border-outline-variant px-sm py-xs rounded-full flex items-center gap-xs font-label-sm text-label-sm text-tertiary-fixed">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed"></span>
+                            Restocked
+                        </div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-xs mt-sm">Mobile Legends</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">Starlight Member + 3000 Diamonds</p>
+<div class="mt-auto flex items-center justify-between pt-md border-t border-outline-variant/20">
+<div>
+<del class="font-label-sm text-label-sm text-outline block">$35.00</del>
+<span class="font-headline-md text-headline-md text-tertiary-fixed">$15.99</span>
+</div>
+<button class="p-sm bg-surface-container-highest border border-tertiary-fixed/50 text-tertiary-fixed rounded-lg hover:bg-tertiary-fixed hover:text-on-tertiary-fixed transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart_checkout</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Coming Soon Teaser -->
+<section class="px-gutter max-w-container-max mx-auto">
+<div class="glass-panel bg-surface-container-lowest/80 border-dashed border-outline-variant/50 rounded-xl p-xl text-center flex flex-col items-center justify-center min-h-[200px]">
+<span class="material-symbols-outlined text-[48px] text-surface-bright mb-md" style="font-variation-settings: 'FILL' 0;">hourglass_empty</span>
+<h4 class="font-headline-md text-headline-md text-on-surface-variant mb-xs">Next Drop Protocol Initiating...</h4>
+<p class="font-body-md text-body-md text-outline max-w-md mx-auto">Exclusive packs for Genshin Impact and PUBG Mobile unlock in 24 hours. Stay sharp.</p>
+</div>
+</section>
+</main>
+<!-- Footer Shared Component -->
+<footer class="bg-surface-dim dark:bg-surface-dim w-full py-xxl border-t border-outline-variant/30">
+<div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-4 gap-xl">
+<!-- Brand -->
+<div class="flex flex-col items-start">
+<span class="font-headline-md text-headline-md italic text-primary dark:text-primary mb-sm">NEON NEXUS</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Neon Nexus. All Rights Reserved.</p>
+</div>
+<!-- Links list inferred from JSON -->
+<div class="flex flex-col gap-sm">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">Refund Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">Contact Us</a>
+</div>
+<div class="flex flex-col gap-sm">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">FAQ</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PUBG Mobile - Top Up</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#3c4d00",
+                        "on-background": "#e5e2e3",
+                        "on-secondary-fixed": "#3a0033",
+                        "primary-fixed": "#74f5ff",
+                        "on-surface": "#e5e2e3",
+                        "secondary": "#fface8",
+                        "tertiary": "#efffbb",
+                        "tertiary-fixed": "#c3f400",
+                        "primary-container": "#00f2ff",
+                        "surface": "#131314",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353436",
+                        "on-primary-fixed": "#002022",
+                        "on-primary-container": "#006a71",
+                        "surface-container-lowest": "#0e0e0f",
+                        "background": "#131314",
+                        "surface-bright": "#3a393a",
+                        "surface-container-highest": "#353436",
+                        "on-secondary-fixed-variant": "#840076",
+                        "inverse-on-surface": "#313031",
+                        "on-tertiary": "#283500",
+                        "tertiary-fixed-dim": "#abd600",
+                        "on-primary-fixed-variant": "#004f54",
+                        "primary": "#e1fdff",
+                        "on-secondary-container": "#520049",
+                        "outline": "#849495",
+                        "secondary-fixed-dim": "#fface8",
+                        "on-secondary": "#5e0053",
+                        "surface-container-high": "#2a2a2b",
+                        "on-surface-variant": "#b9cacb",
+                        "on-tertiary-fixed": "#161e00",
+                        "secondary-fixed": "#ffd7f0",
+                        "surface-tint": "#00dbe7",
+                        "inverse-surface": "#e5e2e3",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#00696f",
+                        "error-container": "#93000a",
+                        "secondary-container": "#ff24e4",
+                        "surface-container-low": "#1c1b1c",
+                        "on-error": "#690005",
+                        "primary-fixed-dim": "#00dbe7",
+                        "on-primary": "#00363a",
+                        "surface-container": "#201f20",
+                        "outline-variant": "#3a494b",
+                        "surface-dim": "#131314",
+                        "tertiary-container": "#bdec00",
+                        "on-tertiary-container": "#516800"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xxl": "64px",
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "container-max": "1440px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Sora"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Sora"],
+                        "headline-xl": ["Sora"],
+                        "display-lg-mobile": ["Sora"],
+                        "headline-lg": ["Sora"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-xl": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "1.1", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.0", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow-primary {
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+        }
+        .neon-glow-primary-hover:hover {
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
+            border-color: rgba(0, 242, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_20px_rgba(0,242,255,0.1)] docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20">
+<div class="flex items-center gap-xl">
+<a class="font-headline-md text-headline-md font-extrabold tracking-tighter text-primary dark:text-primary-container" href="#">NEON NEXUS</a>
+<div class="hidden md:flex gap-lg font-body-md text-body-md">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="#">Marketplace</a>
+<a class="text-primary dark:text-primary font-bold border-b-2 border-primary pb-1 hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="#">Promos</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="#">Support</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="#">Wallet</a>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<button class="text-primary dark:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+</button>
+<button class="text-primary dark:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</button>
+<button class="bg-primary-container text-on-primary-container font-label-md text-label-md px-md py-sm rounded-lg hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]">Top Up</button>
+<img alt="User Avatar" class="w-10 h-10 rounded-full border border-primary-container" data-alt="A small, circular avatar portrait of a cyber-enhanced character with glowing neon blue accents on their visor. The background is a dark, gritty sci-fi alleyway illuminated by distant magenta streetlights. The aesthetic is heavily stylized, blending gritty realism with high-tech cyberpunk elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtGRV_kR0_P_5xtrJVuVr6b7A-hbNYaG4yspJ2wp_DeNK0XQuHfwg3p0H9ojWnpuPLR6VbamvtkCzLtanWztFaJs_O4IQeQQdsVqxakeqOEhFAwHmiU9vJhjoXmgSXzGykUJ1M9YbuHSo4L9WSUJzXRIudZLXgq5AAHK2PxHLoAYw7Ky9DRlmgY3840cB2-ald8zwlGJffJLaGzNUjNznc0UT07-WlQXMULzgv_rlkI6LowMcbD-Uv6x0SKk56HxcDHpjbN-QAK9g"/>
+</div>
+</div>
+</nav>
+<main class="flex-grow w-full max-w-container-max mx-auto px-gutter py-xxl grid grid-cols-1 md:grid-cols-12 gap-xl">
+<!-- Left Column: Info & Banner -->
+<div class="md:col-span-5 flex flex-col gap-xl">
+<!-- Game Banner -->
+<div class="rounded-xl overflow-hidden glass-panel relative group">
+<div class="aspect-video w-full bg-surface-container-high relative">
+<img alt="PUBG Mobile Banner" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" data-alt="A high-octane action scene featuring a heavily armored soldier parachuting into a war-torn, futuristic urban landscape. The scene is illuminated by striking neon cyan and magenta explosions in the distance. The overall aesthetic is dark, gritty, and deeply immersive, reflecting a premium competitive gaming environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD15agPeCt3oImyOlHdAn64ufc7lcm_beY5yQENEDpBczchyDCkX_6h2dXvCJ-2u9xy2Ok06OdW2W8cx1_5RWh6tylmaLPFfqZmcqz0hZLC8Imd-nCjuBjBKvGme2HuQUSchAOLoDVUg6QaTwIIKjXXOr01PWwuSjJDfCSisfFf7ksLmG0zBvlsgNVgwm359nApHSc9auf1oh9decLdQZzC4S75-Dr_ABm0vkjH5slu611mN_KgHuzcCM7GxuWglwK5YUxwWX5o27U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-90"></div>
+<div class="absolute bottom-md left-md">
+<h1 class="font-headline-xl text-headline-xl text-primary drop-shadow-lg">PUBG Mobile</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-sm">Instant UC Top-Up</p>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="glass-panel rounded-xl p-lg">
+<h2 class="font-headline-md text-headline-md text-primary mb-md">About This Game</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">Dominate the battleground with instant UC delivery. Upgrade your Royale Pass, unlock premium crates, and customize your arsenal with exclusive weapon finishes. Neon Nexus guarantees secure and immediate delivery directly to your account.</p>
+</div>
+<!-- How to Buy -->
+<div class="glass-panel rounded-xl p-lg">
+<h2 class="font-headline-md text-headline-md text-primary mb-md">How to Top Up</h2>
+<ul class="space-y-md font-body-md text-body-md text-on-surface-variant">
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary mt-xs">looks_one</span>
+<span>Enter your Player ID.</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary mt-xs">looks_two</span>
+<span>Select your desired UC package.</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary mt-xs">looks_3</span>
+<span>Choose your preferred payment method.</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary mt-xs">looks_4</span>
+<span>Complete the transaction and receive UC instantly!</span>
+</li>
+</ul>
+</div>
+<!-- Support Box -->
+<div class="glass-panel rounded-xl p-lg border-l-4 border-l-tertiary-fixed">
+<div class="flex items-center gap-md mb-sm">
+<span class="material-symbols-outlined text-tertiary-fixed text-3xl">support_agent</span>
+<h3 class="font-headline-md text-headline-md text-tertiary-fixed">24/7 Support</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Having trouble with your top-up? Our elite support squad is standing by to assist you immediately.</p>
+<button class="mt-md text-tertiary-fixed font-label-md text-label-md hover:underline flex items-center gap-xs">
+                    Contact Support <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Right Column: Purchase Panel -->
+<div class="md:col-span-7">
+<div class="glass-panel rounded-xl p-xl shadow-[0_0_30px_rgba(0,0,0,0.5)] border-t border-t-primary/20">
+<!-- Step 1: User ID -->
+<div class="mb-xl">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">1</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Player Identity</h2>
+</div>
+<div class="flex gap-md">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline">badge</span>
+<input class="w-full bg-[#050506] border border-outline-variant rounded-lg py-md pl-12 pr-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors font-body-md text-body-md placeholder-outline-variant" placeholder="Enter Player ID" type="text"/>
+</div>
+<button class="bg-surface-variant text-on-surface-variant font-label-md text-label-md px-lg py-md rounded-lg hover:bg-surface-bright transition-colors border border-outline-variant/30">
+                            Verify
+                        </button>
+</div>
+<p class="text-xs text-outline mt-sm flex items-center gap-xs"><span class="material-symbols-outlined text-[14px]">info</span> To find your Player ID, tap your avatar in the top left corner of the main screen.</p>
+</div>
+<!-- Step 2: Select Package -->
+<div class="mb-xl">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">2</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Select Payload</h2>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
+<!-- Pack 1 -->
+<div class="glass-panel rounded-lg p-md text-center cursor-pointer hover:scale-105 transition-all duration-200 border-outline-variant/30 hover:border-primary neon-glow-primary-hover group">
+<div class="flex justify-center mb-sm">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-primary-container drop-shadow-[0_0_10px_rgba(0,242,255,0.5)]">monetization_on</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface mb-xs">60 UC</div>
+<div class="font-label-sm text-label-sm text-outline mb-sm">+ 0 Bonus</div>
+<div class="font-label-md text-label-md text-primary">$0.99</div>
+</div>
+<!-- Pack 2 -->
+<div class="glass-panel rounded-lg p-md text-center cursor-pointer hover:scale-105 transition-all duration-200 border-outline-variant/30 hover:border-primary neon-glow-primary-hover group">
+<div class="flex justify-center mb-sm">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-primary-container drop-shadow-[0_0_10px_rgba(0,242,255,0.5)]">monetization_on</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface mb-xs">325 UC</div>
+<div class="font-label-sm text-label-sm text-tertiary-fixed mb-sm">+ 25 Bonus</div>
+<div class="font-label-md text-label-md text-primary">$4.99</div>
+</div>
+<!-- Pack 3 (Selected/Best Value) -->
+<div class="glass-panel rounded-lg p-md text-center cursor-pointer scale-105 border-primary neon-glow-primary relative overflow-hidden group">
+<div class="absolute top-0 right-0 bg-secondary text-on-secondary text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider">Best Value</div>
+<div class="flex justify-center mb-sm mt-xs">
+<span class="material-symbols-outlined text-4xl text-primary-container drop-shadow-[0_0_15px_rgba(0,242,255,0.8)]">toll</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface mb-xs">660 UC</div>
+<div class="font-label-sm text-label-sm text-tertiary-fixed mb-sm">+ 60 Bonus</div>
+<div class="font-label-md text-label-md text-primary">$9.99</div>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-primary-container shadow-[0_0_10px_rgba(0,242,255,1)]"></div>
+</div>
+<!-- Pack 4 -->
+<div class="glass-panel rounded-lg p-md text-center cursor-pointer hover:scale-105 transition-all duration-200 border-outline-variant/30 hover:border-primary neon-glow-primary-hover group">
+<div class="flex justify-center mb-sm">
+<span class="material-symbols-outlined text-4xl text-primary group-hover:text-primary-container drop-shadow-[0_0_10px_rgba(0,242,255,0.5)]">diamond</span>
+</div>
+<div class="font-headline-md text-headline-md text-on-surface mb-xs">1800 UC</div>
+<div class="font-label-sm text-label-sm text-tertiary-fixed mb-sm">+ 300 Bonus</div>
+<div class="font-label-md text-label-md text-primary">$24.99</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Payment Method -->
+<div class="mb-xl">
+<div class="flex items-center gap-sm mb-md">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">3</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Payment Gateway</h2>
+</div>
+<div class="grid grid-cols-3 md:grid-cols-5 gap-md">
+<div class="glass-panel rounded-lg p-sm flex items-center justify-center h-16 cursor-pointer border-outline-variant/30 hover:border-primary neon-glow-primary-hover">
+<span class="font-label-md text-label-md text-on-surface">bKash</span>
+</div>
+<div class="glass-panel rounded-lg p-sm flex items-center justify-center h-16 cursor-pointer border-primary neon-glow-primary relative overflow-hidden">
+<span class="font-label-md text-label-md text-on-surface font-bold">Nagad</span>
+<div class="absolute inset-0 bg-primary/10"></div>
+</div>
+<div class="glass-panel rounded-lg p-sm flex items-center justify-center h-16 cursor-pointer border-outline-variant/30 hover:border-primary neon-glow-primary-hover">
+<span class="font-label-md text-label-md text-on-surface">Visa</span>
+</div>
+<div class="glass-panel rounded-lg p-sm flex items-center justify-center h-16 cursor-pointer border-outline-variant/30 hover:border-primary neon-glow-primary-hover">
+<span class="font-label-md text-label-md text-on-surface">PayPal</span>
+</div>
+<div class="glass-panel rounded-lg p-sm flex items-center justify-center h-16 cursor-pointer border-outline-variant/30 hover:border-primary neon-glow-primary-hover">
+<span class="font-label-md text-label-md text-on-surface">Crypto</span>
+</div>
+</div>
+</div>
+<!-- Step 4: Summary -->
+<div class="bg-[#050506] rounded-xl p-lg border border-outline-variant/20 mb-xl">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-md border-b border-outline-variant/20 pb-sm">Transmission Summary</h3>
+<div class="flex justify-between items-center mb-sm font-body-md text-body-md">
+<span class="text-on-surface">660 UC Package</span>
+<span class="text-on-surface">$9.99</span>
+</div>
+<div class="flex justify-between items-center mb-md font-body-sm text-body-sm">
+<span class="text-outline">Gateway Fee (Nagad)</span>
+<span class="text-outline">$0.20</span>
+</div>
+<div class="flex justify-between items-center pt-md border-t border-outline-variant/20">
+<span class="font-headline-md text-headline-md text-on-surface">Total</span>
+<span class="font-headline-lg text-headline-lg text-primary drop-shadow-[0_0_10px_rgba(0,242,255,0.5)]">$10.19</span>
+</div>
+</div>
+<!-- Step 5: Complete -->
+<button class="w-full bg-gradient-to-r from-primary-container to-blue-500 text-on-primary-container font-headline-md text-headline-md py-lg rounded-xl neon-glow-primary hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center gap-md shadow-[0_0_30px_rgba(0,242,255,0.4)]">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+                    INITIATE TRANSFER
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-dim dark:bg-surface-dim border-t border-outline-variant/30 w-full py-xxl mt-auto">
+<div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-4 gap-xl">
+<div class="col-span-1">
+<div class="font-headline-md text-headline-md italic text-primary mb-md">NEON NEXUS</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Neon Nexus. All Rights Reserved.</p>
+</div>
+<div class="col-span-1 md:col-span-3 flex flex-wrap gap-lg justify-start md:justify-end font-label-sm text-label-sm">
+<a class="text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">Refund Policy</a>
+<a class="text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">Contact Us</a>
+<a class="text-on-surface-variant hover:text-secondary hover:text-tertiary transition-colors duration-200" href="#">FAQ</a>
+</div>
+</div>
+</footer>
+</body></html>
