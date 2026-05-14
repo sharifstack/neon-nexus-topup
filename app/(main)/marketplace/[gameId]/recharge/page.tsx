@@ -1,6 +1,6 @@
 import connectToDatabase from '@/lib/mongodb';
 import Game from '@/models/Game';
-import PaymentGateway from '@/models/PaymentGateway';
+import PaymentMethod from '@/models/PaymentMethod';
 import { notFound } from 'next/navigation';
 import RechargeClient from './RechargeClient';
 
@@ -21,7 +21,7 @@ export default async function RechargePage({ params }: { params: Promise<{ gameI
   // Try to fetch payment methods from DB, fallback to defaults if empty
   let paymentMethods = [];
   try {
-    const dbPaymentMethods = await PaymentGateway.find({ isActive: true });
+    const dbPaymentMethods = await PaymentMethod.find({ isActive: true });
     if (dbPaymentMethods && dbPaymentMethods.length > 0) {
       paymentMethods = JSON.parse(JSON.stringify(dbPaymentMethods));
     } else {
