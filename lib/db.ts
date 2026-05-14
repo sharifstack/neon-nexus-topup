@@ -1,6 +1,14 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+export interface PaymentMethod {
+  id: string;
+  name: string;
+  logo: string;
+  fee: number;
+  description: string;
+}
+
 export interface User {
   id: string;
   name: string;
