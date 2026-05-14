@@ -18,12 +18,15 @@ export default async function RechargePage({ params }: { params: Promise<{ gameI
   // Convert to plain object
   const game = JSON.parse(JSON.stringify(gameDoc));
   
-  // Fallback payment methods if collection is empty
-  const paymentMethods = [
-    { id: 'bkash', name: 'bKash', fee: 0.015 },
-    { id: 'nagad', name: 'Nagad', fee: 0.01 },
-    { id: 'rocket', name: 'Rocket', fee: 0.01 }
-  ];
+  // Try to fetch payment methods from DB, fallback to defaults if empty
+  const dbPaymentMethods = await PaymentMethod.find({ isActive: true });
+  const paymentMethods = dbPaymentMethods.length > 0 
+    ? JSON.parse(JSON.stringify(dbPaymentMethods))
+    : [
+        { id: 'bkash', name: 'bKash', logo: '💳', fee: 0.015, description: 'Mobile banking' },
+        { id: 'nagad', name: 'Nagad', logo: '📱', fee: 0.01, description: 'Digital wallet' },
+        { id: 'rocket', name: 'Rocket', logo: '🚀', fee: 0.01, description: 'Dutch Bangla' }
+      ];
 
   return (
     <div className="flex-grow bg-[#0d1117] min-h-screen">
