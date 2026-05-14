@@ -4,6 +4,8 @@ import { notFound } from 'next/navigation';
 import TopUpClient from './TopUpClient';
 import mongoose from 'mongoose';
 
+export const dynamic = 'force-dynamic';
+
 export default async function TopUpPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   await connectToDatabase();

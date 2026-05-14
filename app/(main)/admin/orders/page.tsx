@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import AdminSidebar from '../components/AdminSidebar';
 import OrdersClient from './OrdersClient';
 import { ShoppingCart } from 'lucide-react';

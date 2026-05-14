@@ -4,6 +4,8 @@ import PaymentMethod from '@/models/PaymentMethod';
 import { notFound } from 'next/navigation';
 import RechargeClient from './RechargeClient';
 
+export const dynamic = 'force-dynamic';
+
 export default async function RechargePage({ params }: { params: Promise<{ gameId: string }> }) {
   const { gameId } = await params;
   await connectToDatabase();

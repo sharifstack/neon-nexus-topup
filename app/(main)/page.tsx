@@ -2,6 +2,8 @@ import Link from "next/link";
 import connectToDatabase from "@/lib/mongodb";
 import Game from "@/models/Game";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   await connectToDatabase();
   

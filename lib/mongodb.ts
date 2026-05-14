@@ -1,7 +1,16 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/neonnexus';
+const MONGODB_URI = process.env.MONGODB_URI;
 
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+}
+
+/**
+ * Global is used here to maintain a cached connection across hot reloads
+ * in development. This prevents connections growing exponentially
+ * during API Route usage.
+ */
 let cached = (global as any).mongoose;
 
 if (!cached) {
@@ -10,52 +19,36 @@ if (!cached) {
 
 async function connectToDatabase() {
   if (cached.conn) {
-    // Optional: Re-run seed check if needed, but usually once per server start is fine
     return cached.conn;
   }
 
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
-      serverSelectionTimeoutMS: 5000, // Fail fast if no local DB
     };
 
-    console.log(`[DB] Attempting to connect to: ${MONGODB_URI}`);
+    console.log('[DB] Connecting to MongoDB...');
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts)
-      .then(async (mongoose) => {
-        console.log('[DB] Connected to MongoDB');
+    cached.promise = mongoose.connect(MONGODB_URI!, opts).then(async (mongoose) => {
+      console.log('[DB] Connected successfully');
+      
+      // Seed data once per connection in dev/first-time
+      try {
         const { seedDatabaseIfNeeded } = await import('./db-init');
         await seedDatabaseIfNeeded();
-        return mongoose;
-      })
-      .catch(async (err) => {
-        console.warn('[DB] Connection failed. Starting in-memory fallback...');
-        console.error(`[DB] Error: ${err.message}`);
-        
-        // Fallback to in-memory server for development if local DB is missing
-        try {
-          const { MongoMemoryServer } = await import('mongodb-memory-server');
-          const mongoServer = await MongoMemoryServer.create();
-          const uri = mongoServer.getUri();
-          
-          console.log(`[DB] In-memory MongoDB started at: ${uri}`);
-          const conn = await mongoose.connect(uri, opts);
-          const { seedDatabaseIfNeeded } = await import('./db-init');
-          await seedDatabaseIfNeeded();
-          return conn;
-        } catch (memErr: any) {
-
-          console.error('[DB] Memory server failed to start:', memErr.message);
-          throw err; // Throw original error if fallback fails
-        }
-      });
+      } catch (seedErr) {
+        console.error('[DB] Seeding failed:', seedErr);
+      }
+      
+      return mongoose;
+    });
   }
 
   try {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
+    console.error('[DB] Connection error:', e);
     throw e;
   }
 
@@ -63,4 +56,3 @@ async function connectToDatabase() {
 }
 
 export default connectToDatabase;
-

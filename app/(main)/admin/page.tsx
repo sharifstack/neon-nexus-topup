@@ -2,6 +2,8 @@ import AdminSidebar from './components/AdminSidebar';
 import AdminDashboardClient from './AdminDashboardClient';
 import { Calendar } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminPage() {
   return (
     <div className="flex relative min-h-screen">

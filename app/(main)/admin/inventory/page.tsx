@@ -2,6 +2,8 @@ import AdminSidebar from '../components/AdminSidebar';
 import InventoryClient from './InventoryClient';
 import { PackageSearch } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default function InventoryPage() {
   return (
     <div className="flex relative min-h-screen">
