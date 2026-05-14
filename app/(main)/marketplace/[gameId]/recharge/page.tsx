@@ -1,6 +1,6 @@
 import connectToDatabase from '@/lib/mongodb';
 import Game from '@/models/Game';
-import PaymentMethod from '@/models/PaymentMethod'; // Assuming this model exists, if not I'll use a fallback
+import PaymentGateway from '@/models/PaymentGateway';
 import { notFound } from 'next/navigation';
 import RechargeClient from './RechargeClient';
 
@@ -19,14 +19,21 @@ export default async function RechargePage({ params }: { params: Promise<{ gameI
   const game = JSON.parse(JSON.stringify(gameDoc));
   
   // Try to fetch payment methods from DB, fallback to defaults if empty
-  const dbPaymentMethods = await PaymentMethod.find({ isActive: true });
-  const paymentMethods = dbPaymentMethods.length > 0 
-    ? JSON.parse(JSON.stringify(dbPaymentMethods))
-    : [
-        { id: 'bkash', name: 'bKash', logo: '💳', fee: 0.015, description: 'Mobile banking' },
-        { id: 'nagad', name: 'Nagad', logo: '📱', fee: 0.01, description: 'Digital wallet' },
-        { id: 'rocket', name: 'Rocket', logo: '🚀', fee: 0.01, description: 'Dutch Bangla' }
-      ];
+  let paymentMethods = [];
+  try {
+    const dbPaymentMethods = await PaymentGateway.find({ isActive: true });
+    if (dbPaymentMethods && dbPaymentMethods.length > 0) {
+      paymentMethods = JSON.parse(JSON.stringify(dbPaymentMethods));
+    } else {
+      throw new Error('No methods in DB');
+    }
+  } catch (err) {
+    paymentMethods = [
+      { id: 'bkash', name: 'bKash', logo: '💳', fee: 0.015, description: 'Mobile banking' },
+      { id: 'nagad', name: 'Nagad', logo: '📱', fee: 0.01, description: 'Digital wallet' },
+      { id: 'rocket', name: 'Rocket', logo: '🚀', fee: 0.01, description: 'Dutch Bangla' }
+    ];
+  }
 
   return (
     <div className="flex-grow bg-[#0d1117] min-h-screen">
@@ -36,4 +43,3 @@ export default async function RechargePage({ params }: { params: Promise<{ gameI
     </div>
   );
 }
-
