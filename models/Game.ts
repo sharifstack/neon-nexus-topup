@@ -75,7 +75,7 @@ const GameSchema: Schema = new Schema({
 }, { timestamps: true });
 
 // Auto-generate slug before saving if not provided
-GameSchema.pre('validate', function(next) {
+GameSchema.pre('save', function(this: any, next: any) {
   if (this.name && !this.slug) {
     this.slug = this.name.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
   }
