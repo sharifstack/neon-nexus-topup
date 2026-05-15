@@ -23,6 +23,7 @@ export interface IGame extends Document {
   
   // Placement Flags
   isMiniGame: boolean;
+  isFeaturedMiniGame: boolean;
   isFlashDeal: boolean;
   isFeatured: boolean;
   isActive: boolean;
@@ -62,6 +63,7 @@ const GameSchema: Schema = new Schema({
   
   // Placement Flags
   isMiniGame: { type: Boolean, default: false },
+  isFeaturedMiniGame: { type: Boolean, default: false },
   isFlashDeal: { type: Boolean, default: false },
   isFeatured: { type: Boolean, default: false },
   isActive: { type: Boolean, default: true },
