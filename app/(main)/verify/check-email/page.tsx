@@ -56,7 +56,7 @@ export default function CheckEmailPage() {
 
         <div className="mt-xl pt-lg border-t border-white/5 w-full text-center">
           <p className="text-xs text-on-surface-variant/60">
-            Didn't receive the email? Check your spam folder or contact support at <span className="text-primary">support@neon-nexus.com</span>
+            Didn't receive the email?Please check your spam folder or contact support at <span className="text-primary">[EMAIL_ADDRESS]</span>
           </p>
         </div>
       </div>
