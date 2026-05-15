@@ -11,6 +11,23 @@ export interface IUser extends Document {
   twoFactorEnabled: boolean;
   walletBalance: number;
   verificationToken?: string;
+
+  // Moderation fields
+  status: 'active' | 'suspended' | 'banned';
+  suspendedUntil?: Date;
+  banReason?: string;
+  suspendReason?: string;
+  moderationNote?: string;
+
+  // Activity tracking
+  lastSeen?: Date;
+  isOnline: boolean;
+  country?: string;
+
+  // Stats (denormalised for speed)
+  totalSpent: number;
+  totalOrders: number;
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,6 +43,22 @@ const UserSchema: Schema = new Schema({
   twoFactorEnabled: { type: Boolean, default: false },
   walletBalance: { type: Number, default: 0 },
   verificationToken: { type: String },
+
+  // Moderation
+  status: { type: String, enum: ['active', 'suspended', 'banned'], default: 'active' },
+  suspendedUntil: { type: Date },
+  banReason: { type: String },
+  suspendReason: { type: String },
+  moderationNote: { type: String },
+
+  // Activity
+  lastSeen: { type: Date },
+  isOnline: { type: Boolean, default: false },
+  country: { type: String },
+
+  // Stats
+  totalSpent: { type: Number, default: 0 },
+  totalOrders: { type: Number, default: 0 },
 }, { timestamps: true });
 
 export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema);

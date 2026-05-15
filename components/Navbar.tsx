@@ -3,6 +3,7 @@ import { getSessionUser } from '@/lib/auth';
 import { logout } from '@/app/actions/auth';
 import NavbarClient from './NavbarClient';
 import LanguageSwitcher from './LanguageSwitcher';
+import NavbarAuthLinks from './NavbarAuthLinks';
 
 export default async function Navbar() {
   const user = await getSessionUser();
@@ -16,7 +17,7 @@ export default async function Navbar() {
           NEON NEXUS
         </Link>
 
-        {/* Links (Desktop) — client component for translations */}
+        {/* Links (Desktop) */}
         <NavbarClient user={user} />
 
         {/* Right actions */}
@@ -32,7 +33,6 @@ export default async function Navbar() {
                 <span className="material-symbols-outlined">stars</span>
                 <span className="font-label-md text-label-md">{user.points} PTS</span>
               </button>
-              <NavbarTopUpLink />
               <div className="flex items-center gap-sm ml-sm border-l border-outline-variant/30 pl-sm">
                 <Link href="/account" className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/30 cursor-pointer hover:border-primary transition-colors">
                   <img alt="User Avatar" className="w-full h-full object-cover" src={user.avatar || "https://lh3.googleusercontent.com/aida-public/AB6AXuDX4iH3_wJYd2jJNAoKdJVj3WUzu_Xn18zWBzYQ5e3HC1OAp7Uy8PYuKptthHt3TRE-_39dIthT_pTISMs6xkAo1HiU_kgvY7C-CRNzaTbjG4Xa_5OHiRaATL5zSxuZxOKKT1wXBQlGX7cyVajukVSOzYYc1VUGW3L-7qAmPcuC3dWwjUw8JdnrIVhakPgRDlPzmQdbUZY9tcneiHtdj-s0DVJRRgiXR1zBVRxi4cdw6HIFWI-ZV7KYsFuCRb61rAAvHsjf_GnACHY"} />
@@ -52,7 +52,3 @@ export default async function Navbar() {
     </nav>
   );
 }
-
-// Small client sub-components that use useTranslation()
-import NavbarTopUpLink from './NavbarTopUpLink';
-import NavbarAuthLinks from './NavbarAuthLinks';

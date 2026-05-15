@@ -40,7 +40,8 @@ export default function InventoryClient() {
     name: '',
     category: 'Mobile Games',
     type: 'game',
-    currency: 'USD',
+    currency: 'UC',
+    priceCurrency: 'BDT',
     description: '',
     coverImage: '',
     bannerImage: '',
@@ -74,7 +75,8 @@ export default function InventoryClient() {
         name: '',
         category: 'Mobile Games',
         type: 'game',
-        currency: 'USD',
+        currency: 'UC',
+        priceCurrency: 'BDT',
         description: '',
         coverImage: '',
         bannerImage: '',
@@ -476,13 +478,22 @@ export default function InventoryClient() {
                                 onChange={(e) => updatePackage(pkg.id, 'price', parseFloat(e.target.value))}
                               />
                             </div>
-                            <div className="flex gap-md items-center">
+                            <div className="flex gap-md items-center flex-wrap">
                               <input 
                                 placeholder="Bonus Text (optional)"
-                                className="bg-transparent border-b border-outline-variant/30 text-[11px] py-1 focus:border-primary outline-none flex-1"
+                                className="bg-transparent border-b border-outline-variant/30 text-[11px] py-1 focus:border-primary outline-none flex-1 min-w-0"
                                 value={pkg.bonus}
                                 onChange={(e) => updatePackage(pkg.id, 'bonus', e.target.value)}
                               />
+                              <select
+                                value={pkg.priceCurrency ?? formData.priceCurrency ?? 'BDT'}
+                                onChange={(e) => updatePackage(pkg.id, 'priceCurrency', e.target.value)}
+                                className="bg-surface-variant/20 border border-outline-variant/30 text-[11px] rounded-lg px-2 py-1 text-on-surface focus:border-primary outline-none"
+                                title="Price currency for this package"
+                              >
+                                <option value="BDT">৳ BDT</option>
+                                <option value="USD">$ USD</option>
+                              </select>
                               <div className="flex items-center gap-2">
                                 <label className="text-[10px] uppercase font-bold text-on-surface-variant">Popular</label>
                                 <input 
@@ -500,13 +511,23 @@ export default function InventoryClient() {
 
                     <SectionTitle icon={ArrowUpRight} title="Advanced Specs" />
                     <div className="grid grid-cols-2 gap-md">
-                      <InputGroup label="Currency Symbol">
+                      <InputGroup label="In-Game Currency">
                         <input 
                           value={formData.currency}
                           onChange={(e) => setFormData({...formData, currency: e.target.value})}
                           className="input-premium py-2.5 text-sm"
-                          placeholder="e.g. UC, Gems"
+                          placeholder="e.g. UC, Gems, Diamonds"
                         />
+                      </InputGroup>
+                      <InputGroup label="Price Currency">
+                        <select
+                          value={formData.priceCurrency ?? 'BDT'}
+                          onChange={(e) => setFormData({...formData, priceCurrency: e.target.value})}
+                          className="input-premium py-2.5 text-sm"
+                        >
+                          <option value="BDT">৳ BDT (Bangladeshi Taka)</option>
+                          <option value="USD">$ USD (US Dollar)</option>
+                        </select>
                       </InputGroup>
                       <InputGroup label="Stock %">
                         <input 

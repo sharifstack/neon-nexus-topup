@@ -5,6 +5,7 @@ import { Game, Package, PaymentMethod } from '@/lib/db';
 import { processCheckout } from '@/app/actions/checkout';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { formatPrice } from '@/lib/currency';
 
 const GAME_ICONS: Record<string, string> = {
   "pubg-mobile": "https://cdn2.steamgriddb.com/icon_thumb/db4f084e914385e578364fa4eebe3bec.png",
@@ -37,6 +38,9 @@ export default function RechargeClient({
   const subtotal = selectedPkg?.price || 0;
   const fee = selectedPayment ? subtotal * (selectedPayment.fee || 0) : 0;
   const total = subtotal + fee;
+  // Resolve display currency: per-package → game-level → BDT fallback
+  const pkgCurrency = (pkg?: Package | null) =>
+    (pkg as any)?.priceCurrency || (game as any)?.priceCurrency || 'BDT';
 
   const handleCheckout = async () => {
     if (!playerId) {
@@ -181,7 +185,7 @@ export default function RechargeClient({
                     )}
                     <div className="mt-auto pt-2 w-full border-t border-white/5">
                       <p className={`text-xs font-bold ${selectedPkg?.id === pkg.id ? 'text-primary' : 'text-on-surface-variant'}`}>
-                        ${pkg.price.toFixed(2)}
+                        {formatPrice(pkg.price, pkgCurrency(pkg))}
                       </p>
                     </div>
                   </div>
@@ -225,7 +229,7 @@ export default function RechargeClient({
                   </div>
                   <div className="text-right">
                     <p className={`text-sm font-bold ${selectedPayment?.id === pm.id ? 'text-primary' : 'text-white'}`}>
-                      ${(subtotal * (1 + (pm.fee || 0))).toFixed(2)}
+                      {formatPrice(subtotal * (1 + (pm.fee || 0)), pkgCurrency(selectedPkg))}
                     </p>
                     {pm.fee && pm.fee > 0 && (
                       <p className="text-[9px] text-on-surface-variant">Fee: {(pm.fee * 100).toFixed(1)}%</p>
@@ -282,8 +286,8 @@ export default function RechargeClient({
             </div>
             {selectedPkg && (
               <div className="flex flex-col text-right">
-                <span className="text-on-surface-variant text-[10px] line-through font-bold">${(selectedPkg.price * 1.2).toFixed(2)}</span>
-                <span className="text-primary font-black text-2xl tracking-tighter">${total.toFixed(2)}</span>
+                <span className="text-on-surface-variant text-[10px] line-through font-bold">{formatPrice(selectedPkg.price * 1.2, pkgCurrency(selectedPkg))}</span>
+                <span className="text-primary font-black text-2xl tracking-tighter">{formatPrice(total, pkgCurrency(selectedPkg))}</span>
               </div>
             )}
           </div>

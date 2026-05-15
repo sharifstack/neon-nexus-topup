@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Game, Package } from '@/lib/db';
 import { processCheckout } from '@/app/actions/checkout';
 import { useRouter } from 'next/navigation';
+import { formatPrice } from '@/lib/currency';
 
 export default function GamePurchaseClient({ game }: { game: Game }) {
   const [selectedPkg, setSelectedPkg] = useState<Package | null>(null);
@@ -68,7 +69,7 @@ export default function GamePurchaseClient({ game }: { game: Game }) {
                     {pkg.bonus}
                   </span>
                 )}
-                <p className="text-on-surface-variant font-medium mt-1">${pkg.price.toFixed(2)}</p>
+                <p className="text-on-surface-variant font-medium mt-1">{formatPrice(pkg.price, (pkg as any).priceCurrency || (game as any).priceCurrency || 'BDT')}</p>
               </div>
             </div>
           ))}
@@ -91,7 +92,7 @@ export default function GamePurchaseClient({ game }: { game: Game }) {
               
               <div className="flex justify-between items-center text-on-surface-variant">
                 <span>Price</span>
-                <span className="font-bold text-on-surface">${selectedPkg.price.toFixed(2)}</span>
+                <span className="font-bold text-on-surface">{formatPrice(selectedPkg.price, (selectedPkg as any).priceCurrency || (game as any).priceCurrency || 'BDT')}</span>
               </div>
 
               <div className="flex justify-between items-center text-on-surface-variant">
@@ -117,7 +118,7 @@ export default function GamePurchaseClient({ game }: { game: Game }) {
 
               <div className="flex justify-between items-center">
                 <span className="text-lg text-on-surface font-medium">Total</span>
-                <span className="text-2xl font-bold text-primary">${(selectedPkg.price * quantity).toFixed(2)}</span>
+                <span className="text-2xl font-bold text-primary">{formatPrice(selectedPkg.price * quantity, (selectedPkg as any).priceCurrency || (game as any).priceCurrency || 'BDT')}</span>
               </div>
 
               <button 

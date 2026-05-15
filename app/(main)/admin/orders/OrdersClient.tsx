@@ -14,6 +14,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { formatPrice } from '@/lib/currency';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -122,7 +123,7 @@ export default function OrdersClient() {
                       </div>
                     </td>
                     <td className="p-lg">
-                      <div className="font-body-md font-bold text-primary">${order.amount.toFixed(2)}</div>
+                      <div className="font-body-md font-bold text-primary">{formatPrice(order.amount, order.currency || 'BDT')}</div>
                       <div className="text-[10px] text-on-surface-variant uppercase">{order.paymentMethod || 'Unknown'}</div>
                     </td>
                     <td className="p-lg">

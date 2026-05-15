@@ -13,9 +13,6 @@ export default function NavbarClient({ user }: { user: any }) {
       {user?.role === "admin" && (
         <Link className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="/admin">{t.admin}</Link>
       )}
-      {user && (
-        <Link className="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="/account">{t.wallet}</Link>
-      )}
     </div>
   );
 }

@@ -52,7 +52,27 @@ export async function login(formData: FormData) {
 
     if (!user.isVerified) {
       console.log(`[LOGIN FAILED] Email not verified: ${email}`);
-      return { error: 'Email not verified' };
+      return { error: 'Email not verified. Please check your inbox.' };
+    }
+
+    // Block banned users
+    if (user.status === 'banned') {
+      return { error: `Your account has been permanently banned. Reason: ${user.banReason || 'Violation of platform terms.'}` };
+    }
+
+    // Block suspended users (auto-lift expired suspensions)
+    if (user.status === 'suspended') {
+      const now = new Date();
+      if (user.suspendedUntil && new Date(user.suspendedUntil) > now) {
+        const msLeft = new Date(user.suspendedUntil).getTime() - now.getTime();
+        const daysLeft = Math.ceil(msLeft / (1000 * 60 * 60 * 24));
+        return { error: `Your account is suspended for ${daysLeft} more day(s). Reason: ${user.suspendReason || 'Platform policy violation.'}` };
+      } else {
+        // Auto-lift expired suspension
+        user.status = 'active';
+        user.suspendedUntil = undefined;
+        await user.save();
+      }
     }
     
     console.log(`[LOGIN SUCCESS] User: ${email}`);

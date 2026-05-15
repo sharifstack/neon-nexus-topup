@@ -3,6 +3,7 @@ import { getSessionUser } from "@/lib/auth";
 import { readDb } from "@/lib/db";
 import { redirect } from "next/navigation";
 import ProfileSettings from "./ProfileSettings";
+import { formatPrice } from "@/lib/currency";
 
 export default async function Account() {
   const user = await getSessionUser();
@@ -81,7 +82,7 @@ export default async function Account() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end">
-                      <span className="font-headline-sm text-headline-sm text-on-surface">${tx.amount.toFixed(2)}</span>
+                      <span className="font-headline-sm text-headline-sm text-on-surface">{formatPrice(tx.amount, (tx as any).currency || 'BDT')}</span>
                       <span className="font-label-sm text-label-sm text-tertiary flex items-center gap-xs">
                         +{tx.pointsEarned} PTS
                       </span>

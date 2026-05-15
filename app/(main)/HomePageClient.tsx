@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useTranslation } from "@/lib/LanguageContext";
+import { formatPrice } from "@/lib/currency";
 
 interface HomePageClientProps {
   featuredGames: any[];
@@ -111,7 +112,7 @@ function GameCard({ game, badge, badgeColor = "bg-primary", t }: { game: any; ba
           <div className="flex justify-between items-end mt-auto pt-md border-t border-white/5">
             <div>
               <span className="font-label-sm text-label-sm text-outline opacity-60">{t.startingFrom}</span>
-              <div className="font-headline-md text-headline-md text-primary-container">${minPrice.toFixed(2)}</div>
+              <div className="font-headline-md text-headline-md text-primary-container">{formatPrice(minPrice, game.priceCurrency || 'BDT')}</div>
             </div>
             <Link href={`/topup/${game.slug}`} className="bg-primary-container/10 text-primary-container border border-primary-container/30 hover:bg-primary-container hover:text-on-primary-container font-label-md text-label-md px-md py-sm rounded-lg transition-all hover:scale-105">
               {t.topUp}

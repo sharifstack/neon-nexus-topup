@@ -4,6 +4,7 @@ export interface IPackage {
   id: string;
   name: string;
   price: number;
+  priceCurrency?: 'BDT' | 'USD';  // real-money currency for this package
   originalPrice?: number;
   bonus?: string;
   popular?: boolean;
@@ -29,7 +30,8 @@ export interface IGame extends Document {
   isActive: boolean;
   showInOtherRegion: boolean;
   
-  currency: string;
+  currency: string;           // in-game token name: UC, Gems, Diamonds…
+  priceCurrency: 'BDT' | 'USD'; // real-money display currency
   description: string;
   requiresZoneId: boolean;
   playUrl?: string;
@@ -44,6 +46,7 @@ const PackageSchema = new Schema({
   id: { type: String, required: true },
   name: { type: String, required: true },
   price: { type: Number, required: true },
+  priceCurrency: { type: String, enum: ['BDT', 'USD'], default: 'BDT' },
   originalPrice: { type: Number },
   bonus: { type: String },
   popular: { type: Boolean, default: false },
@@ -69,7 +72,8 @@ const GameSchema: Schema = new Schema({
   isActive: { type: Boolean, default: true },
   showInOtherRegion: { type: Boolean, default: false },
   
-  currency: { type: String, required: true },
+  currency: { type: String, required: true }, // in-game token name
+  priceCurrency: { type: String, enum: ['BDT', 'USD'], default: 'BDT' }, // real-money currency
   description: { type: String },
   requiresZoneId: { type: Boolean, default: false },
   playUrl: { type: String },
