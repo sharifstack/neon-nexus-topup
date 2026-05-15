@@ -8,16 +8,11 @@ import mongoose from 'mongoose';
 let cached = (global as any).mongoose;
 
 if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+  cached = (global as any).mongoose = { conn: null, promise: null, mongoServer: null };
 }
 
 async function connectToDatabase() {
-  const MONGODB_URI = process.env.MONGODB_URI;
-
-  if (!MONGODB_URI) {
-    console.error('[DB] MONGODB_URI is missing!');
-    throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
-  }
+  let MONGODB_URI = process.env.MONGODB_URI;
 
   if (cached.conn) {
     return cached.conn;
@@ -26,13 +21,49 @@ async function connectToDatabase() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 5000, // Timeout faster in dev if local DB is down
     };
 
-    console.log('[DB] Connecting to MongoDB...');
+    const connectWithUri = async (uri: string) => {
+      console.log(`[DB] Connecting to MongoDB at ${uri.split('@').pop()}...`);
+      return mongoose.connect(uri, opts);
+    };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then(async (mongoose) => {
-      console.log('[DB] Connected successfully');
-      
+    cached.promise = (async () => {
+      try {
+        if (!MONGODB_URI) {
+          throw new Error('MONGODB_URI is missing');
+        }
+        
+        const conn = await connectWithUri(MONGODB_URI);
+        console.log('[DB] Connected successfully to provided URI');
+        return conn;
+      } catch (error: any) {
+        // If local connection fails in development, try starting an in-memory server
+        if (process.env.NODE_ENV === 'development' && (error.message.includes('ECONNREFUSED') || error.message.includes('ServerSelectionError'))) {
+          console.warn('[DB] Local MongoDB connection failed. Attempting to start In-Memory MongoDB Server...');
+          
+          try {
+            const { MongoMemoryServer } = await import('mongodb-memory-server');
+            if (!cached.mongoServer) {
+              cached.mongoServer = await MongoMemoryServer.create();
+            }
+            const memoryUri = cached.mongoServer.getUri();
+            console.log('[DB] Using In-Memory MongoDB Server:', memoryUri);
+            
+            const conn = await connectWithUri(memoryUri);
+            console.log('[DB] Connected successfully to In-Memory MongoDB');
+            return conn;
+          } catch (memErr: any) {
+            console.error('[DB] Failed to start In-Memory MongoDB Server:', memErr.message);
+            throw error; // Throw the original error if fallback also fails
+          }
+        }
+        
+        console.error('[DB] Connection error:', error.message);
+        throw error;
+      }
+    })().then(async (mongooseInstance) => {
       // Seed data once per connection in dev/first-time
       try {
         const { seedDatabaseIfNeeded } = await import('./db-init');
@@ -41,7 +72,7 @@ async function connectToDatabase() {
         console.error('[DB] Seeding failed:', seedErr);
       }
       
-      return mongoose;
+      return mongooseInstance;
     });
   }
 
@@ -49,7 +80,6 @@ async function connectToDatabase() {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
-    console.error('[DB] Connection error:', e);
     throw e;
   }
 
