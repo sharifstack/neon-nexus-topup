@@ -5,24 +5,29 @@ import Session from '@/models/Session';
 import { randomBytes } from 'crypto';
 
 export async function getSessionUser() {
-  await connectToDatabase();
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get('session_id')?.value;
-  
-  if (!sessionId) return null;
-  
-  const session = await Session.findOne({ id: sessionId });
-  
-  if (!session) return null;
-  
-  if (session.expiresAt < new Date()) {
-    // Session expired
-    await Session.deleteOne({ id: sessionId });
+  try {
+    await connectToDatabase();
+    const cookieStore = await cookies();
+    const sessionId = cookieStore.get('session_id')?.value;
+    
+    if (!sessionId) return null;
+    
+    const session = await Session.findOne({ id: sessionId });
+    
+    if (!session) return null;
+    
+    if (session.expiresAt < new Date()) {
+      // Session expired
+      await Session.deleteOne({ id: sessionId });
+      return null;
+    }
+    
+    const user = await User.findById(session.userId);
+    return user ? JSON.parse(JSON.stringify(user)) : null;
+  } catch (error) {
+    console.error('[AUTH] Failed to get session user:', error);
     return null;
   }
-  
-  const user = await User.findById(session.userId);
-  return user ? JSON.parse(JSON.stringify(user)) : null;
 }
 
 export async function createSession(userId: string) {

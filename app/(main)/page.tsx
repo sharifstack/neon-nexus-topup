@@ -8,8 +8,11 @@ export default async function Home() {
   await connectToDatabase();
   
   // Fetch dynamic data
-  const featuredGames = await Game.find({ isFeatured: true, isActive: true }).lean().limit(6);
-  const flashDeals = await Game.find({ isFlashDeal: true, isActive: true }).lean().limit(3);
+  const featuredGamesRaw = await Game.find({ isFeatured: true, isActive: true }).lean().limit(6);
+  const flashDealsRaw = await Game.find({ isFlashDeal: true, isActive: true }).lean().limit(3);
+  
+  const featuredGames = JSON.parse(JSON.stringify(featuredGamesRaw));
+  const flashDeals = JSON.parse(JSON.stringify(flashDealsRaw));
   
   return (
     <div className="max-w-container-max mx-auto px-gutter py-xxl flex flex-col gap-xxl w-full">
