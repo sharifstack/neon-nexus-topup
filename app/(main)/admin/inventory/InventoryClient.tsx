@@ -47,6 +47,7 @@ export default function InventoryClient() {
     requiresZoneId: false,
     isActive: true,
     isFeatured: false,
+    showInOtherRegion: false,
     stock: 100,
     packages: []
   });
@@ -63,7 +64,10 @@ export default function InventoryClient() {
   const handleOpenModal = (game: any = null) => {
     if (game) {
       setEditingGame(game);
-      setFormData({ ...game });
+      setFormData({ 
+        ...game,
+        showInOtherRegion: game.showInOtherRegion || false
+      });
     } else {
       setEditingGame(null);
       setFormData({
@@ -77,6 +81,7 @@ export default function InventoryClient() {
         requiresZoneId: false,
         isActive: true,
         isFeatured: false,
+        showInOtherRegion: false,
         stock: 100,
         packages: []
       });
@@ -378,7 +383,7 @@ export default function InventoryClient() {
                         />
                       </InputGroup>
 
-                      <div className="grid grid-cols-2 gap-md p-md bg-surface-variant/10 rounded-xl border border-outline-variant/10">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-md p-md bg-surface-variant/10 rounded-xl border border-outline-variant/10">
                         <Toggle 
                           label="Active" 
                           active={formData.isActive} 
@@ -398,6 +403,11 @@ export default function InventoryClient() {
                           label="Mini Game" 
                           active={formData.isMiniGame} 
                           onClick={() => setFormData({...formData, isMiniGame: !formData.isMiniGame})} 
+                        />
+                        <Toggle 
+                          label="Other Region" 
+                          active={formData.showInOtherRegion} 
+                          onClick={() => setFormData({...formData, showInOtherRegion: !formData.showInOtherRegion})} 
                         />
                       </div>
                     </div>

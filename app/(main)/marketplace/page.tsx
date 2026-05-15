@@ -41,7 +41,7 @@ export default async function MarketplacePage() {
           <MarketplaceClient games={games} />
 
           {/* Discover other region games – scrollable slider */}
-          <GameSlider games={games} />
+          <GameSlider games={games.filter((g: any) => g.showInOtherRegion)} />
 
           {/* Mini Games section */}
           <MiniGamesSection games={games} />

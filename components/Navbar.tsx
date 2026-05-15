@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getSessionUser } from '@/lib/auth';
 import { logout } from '@/app/actions/auth';
+import NavbarClient from './NavbarClient';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default async function Navbar() {
   const user = await getSessionUser();
@@ -13,31 +15,24 @@ export default async function Navbar() {
           <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>token</span>
           NEON NEXUS
         </Link>
-        {/* Links (Desktop) */}
-        <div className="hidden md:flex items-center gap-xl">
-          <Link className="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="/marketplace">Marketplace</Link>
-          <Link className="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="/deals">Promos</Link>
-          {user?.role === "admin" && (
-            <Link className="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="/admin">Admin</Link>
-          )}
-          {user && (
-            <Link className="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]" href="/account">Wallet</Link>
-          )}
-        </div>
-        {/* Actions */}
+
+        {/* Links (Desktop) — client component for translations */}
+        <NavbarClient user={user} />
+
+        {/* Right actions */}
         <div className="flex items-center gap-md">
+          <LanguageSwitcher />
+
           {user ? (
             <>
               <button className="hidden md:flex p-sm text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant/30 relative">
                 <span className="material-symbols-outlined">notifications</span>
               </button>
-              <button className="hidden md:flex p-sm text-on-surface-variant hover:text-tertiary transition-colors rounded-full hover:bg-surface-variant/30 flex items-center gap-xs">
+              <button className="hidden md:flex p-sm text-on-surface-variant hover:text-tertiary transition-colors rounded-full hover:bg-surface-variant/30 items-center gap-xs">
                 <span className="material-symbols-outlined">stars</span>
                 <span className="font-label-md text-label-md">{user.points} PTS</span>
               </button>
-              <Link href="/topup" className="bg-primary-container text-on-primary-container px-lg py-sm rounded-full font-label-md text-label-md hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]">
-                Top Up
-              </Link>
+              <NavbarTopUpLink />
               <div className="flex items-center gap-sm ml-sm border-l border-outline-variant/30 pl-sm">
                 <Link href="/account" className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/30 cursor-pointer hover:border-primary transition-colors">
                   <img alt="User Avatar" className="w-full h-full object-cover" src={user.avatar || "https://lh3.googleusercontent.com/aida-public/AB6AXuDX4iH3_wJYd2jJNAoKdJVj3WUzu_Xn18zWBzYQ5e3HC1OAp7Uy8PYuKptthHt3TRE-_39dIthT_pTISMs6xkAo1HiU_kgvY7C-CRNzaTbjG4Xa_5OHiRaATL5zSxuZxOKKT1wXBQlGX7cyVajukVSOzYYc1VUGW3L-7qAmPcuC3dWwjUw8JdnrIVhakPgRDlPzmQdbUZY9tcneiHtdj-s0DVJRRgiXR1zBVRxi4cdw6HIFWI-ZV7KYsFuCRb61rAAvHsjf_GnACHY"} />
@@ -50,17 +45,14 @@ export default async function Navbar() {
               </div>
             </>
           ) : (
-            <>
-              <Link href="/login" className="text-on-surface-variant hover:text-primary font-label-md text-label-md px-md py-sm transition-colors">
-                Login
-              </Link>
-              <Link href="/register" className="bg-primary-container text-on-primary-container px-lg py-sm rounded-full font-label-md text-label-md hover:scale-105 transition-all duration-300 hover:shadow-[0_0_15px_rgba(0,242,255,0.4)]">
-                Register
-              </Link>
-            </>
+            <NavbarAuthLinks />
           )}
         </div>
       </div>
     </nav>
   );
 }
+
+// Small client sub-components that use useTranslation()
+import NavbarTopUpLink from './NavbarTopUpLink';
+import NavbarAuthLinks from './NavbarAuthLinks';

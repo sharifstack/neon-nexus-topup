@@ -26,6 +26,7 @@ export interface IGame extends Document {
   isFlashDeal: boolean;
   isFeatured: boolean;
   isActive: boolean;
+  showInOtherRegion: boolean;
   
   currency: string;
   description: string;
@@ -64,6 +65,7 @@ const GameSchema: Schema = new Schema({
   isFlashDeal: { type: Boolean, default: false },
   isFeatured: { type: Boolean, default: false },
   isActive: { type: Boolean, default: true },
+  showInOtherRegion: { type: Boolean, default: false },
   
   currency: { type: String, required: true },
   description: { type: String },
@@ -82,4 +84,8 @@ GameSchema.pre('save', function(this: any, next: any) {
   next();
 });
 
-export default mongoose.models.Game || mongoose.model<IGame>('Game', GameSchema);
+if (mongoose.models.Game) {
+  delete mongoose.models.Game;
+}
+
+export default mongoose.model<IGame>('Game', GameSchema);
