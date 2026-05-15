@@ -7,7 +7,7 @@ export async function GET() {
   try {
     await ensureAdmin();
     await connectToDatabase();
-    const games = await Game.find().sort({ createdAt: -1 });
+    const games = await Game.find().sort({ createdAt: -1 }).lean();
     return NextResponse.json(games);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 401 });

@@ -13,11 +13,11 @@ export default async function TopUpPage({ params }: { params: Promise<{ slug: st
   let gameDoc = null;
 
   // 1. Try finding by slug
-  gameDoc = await Game.findOne({ slug: slug });
+  gameDoc = await Game.findOne({ slug: slug }).lean();
 
   // 2. If not found and slug looks like an ObjectId, try finding by _id
   if (!gameDoc && mongoose.Types.ObjectId.isValid(slug)) {
-    gameDoc = await Game.findById(slug);
+    gameDoc = await Game.findById(slug).lean();
   }
   
   if (!gameDoc) {

@@ -7,7 +7,7 @@ export async function GET() {
     await connectToDatabase();
     
     // Fetch all active products
-    const products = await Game.find({ isActive: true }).sort({ displayPriority: -1, createdAt: -1 });
+    const products = await Game.find({ isActive: true }).sort({ displayPriority: -1, createdAt: -1 }).lean();
     
     // Categorize for frontend
     const allGames = products.filter(p => p.type === 'game' || p.category === 'Mobile Games' || p.category === 'PC Games');

@@ -11,7 +11,7 @@ export default async function RechargePage({ params }: { params: Promise<{ gameI
   await connectToDatabase();
   
   // Try finding by slug first (modern way), then fallback to ID
-  const gameDoc = await Game.findOne({ $or: [{ slug: gameId }, { id: gameId }] });
+  const gameDoc = await Game.findOne({ $or: [{ slug: gameId }, { id: gameId }] }).lean();
   
   if (!gameDoc) {
     notFound();
@@ -23,7 +23,7 @@ export default async function RechargePage({ params }: { params: Promise<{ gameI
   // Try to fetch payment methods from DB, fallback to defaults if empty
   let paymentMethods = [];
   try {
-    const dbPaymentMethods = await PaymentMethod.find({ isActive: true });
+    const dbPaymentMethods = await PaymentMethod.find({ isActive: true }).lean();
     if (dbPaymentMethods && dbPaymentMethods.length > 0) {
       paymentMethods = JSON.parse(JSON.stringify(dbPaymentMethods));
     } else {

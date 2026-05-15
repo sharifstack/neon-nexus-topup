@@ -25,7 +25,8 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .limit(10)
       .populate('userId', 'name email')
-      .populate('gameId', 'name');
+      .populate('gameId', 'name')
+      .lean();
 
     // Fetch top selling games (aggregated)
     const topSelling = await Order.aggregate([
@@ -38,7 +39,7 @@ export async function GET() {
     // Populate game names for top selling
     const populatedTopSelling = await Promise.all(
       topSelling.map(async (item) => {
-        const game = await Game.findById(item._id);
+        const game = await Game.findById(item._id).lean();
         return {
           name: game ? game.name : 'Unknown',
           totalSales: item.totalSales,

@@ -11,7 +11,8 @@ export async function GET() {
     const orders = await Order.find()
       .sort({ createdAt: -1 })
       .populate('userId', 'name email')
-      .populate('gameId', 'name');
+      .populate('gameId', 'name')
+      .lean();
       
     return NextResponse.json(orders);
   } catch (error: any) {

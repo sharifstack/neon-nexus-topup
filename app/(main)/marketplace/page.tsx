@@ -18,7 +18,7 @@ export default async function MarketplacePage() {
     await connectToDatabase();
     
     console.log('[MARKETPLACE] Fetching products...');
-    const products = await Game.find({ isActive: true }).sort({ displayPriority: -1, createdAt: -1 });
+    const products = await Game.find({ isActive: true }).sort({ displayPriority: -1, createdAt: -1 }).lean();
     
     // Ensure we handle empty results gracefully
     if (!products) {
