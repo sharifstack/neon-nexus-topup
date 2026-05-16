@@ -9,6 +9,7 @@ import {
   Globe, Calendar, Filter, RefreshCcw
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
 
@@ -261,6 +262,16 @@ function UserRow({ user, onAction }: { user: any; onAction: (u: any, a: 'suspend
       {/* Status */}
       <td className="px-4 py-4">
         <StatusBadge status={user.status || 'active'} suspendedUntil={user.suspendedUntil} />
+        {user.status === 'suspended' && user.suspendReason && (
+          <div className="text-[10px] text-amber-400/60 mt-1 max-w-[150px] truncate" title={user.suspendReason}>
+            Reason: {user.suspendReason}
+          </div>
+        )}
+        {user.status === 'banned' && user.banReason && (
+          <div className="text-[10px] text-red-400/60 mt-1 max-w-[150px] truncate" title={user.banReason}>
+            Reason: {user.banReason}
+          </div>
+        )}
       </td>
 
       {/* Activity */}
@@ -415,6 +426,11 @@ export default function UsersClient() {
       });
       mutate();
       setModalUser(null);
+      if (modalAction === 'suspend') toast.success('User suspended successfully');
+      else if (modalAction === 'ban') toast.success('User permanently banned');
+      else if (modalAction === 'activate') toast.success('User access restored');
+    } catch (err: any) {
+      toast.error('Failed to update user status');
     } finally {
       setModLoading(false);
     }

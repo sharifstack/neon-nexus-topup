@@ -1,8 +1,14 @@
 "use server";
 
-import { readDb, writeDb } from '@/lib/db';
 import { getSessionUser } from '@/lib/auth';
+import connectToDatabase from '@/lib/mongodb';
+import User from '@/models/User';
+import Order from '@/models/Order';
+import PointsTransaction from '@/models/PointsTransaction';
 import { randomUUID } from 'crypto';
+
+// Points earned per 1 BDT/currency unit spent
+const POINTS_PER_UNIT = 10;
 
 export async function processCheckout(formData: FormData) {
   const user = await getSessionUser();
@@ -12,7 +18,9 @@ export async function processCheckout(formData: FormData) {
 
   const amountStr = formData.get('amount') as string;
   const description = formData.get('description') as string || 'Neon Nexus Top Up';
-  
+  const gameIdStr = formData.get('gameId') as string | null;
+  const paymentMethod = formData.get('paymentMethod') as string || 'unknown';
+
   if (!amountStr) {
     return { error: 'Invalid amount.' };
   }
@@ -22,31 +30,48 @@ export async function processCheckout(formData: FormData) {
     return { error: 'Invalid payment amount.' };
   }
 
-  // Calculate points: 10 points for every $1 spent
-  const pointsEarned = Math.floor(amount * 10);
+  // Calculate points: 10 points per currency unit
+  const pointsEarned = Math.floor(amount * POINTS_PER_UNIT);
 
-  const db = await readDb();
-  
-  // Create transaction
-  const newTransaction = {
-    id: `NX-${randomUUID().slice(0, 8).toUpperCase()}`,
-    userId: user.id,
-    amount,
-    pointsEarned,
-    description,
-    date: new Date().toISOString(),
-    status: 'Success' as const
-  };
+  try {
+    await connectToDatabase();
 
-  db.transactions.push(newTransaction);
+    const transactionId = `NX-${randomUUID().slice(0, 8).toUpperCase()}`;
 
-  // Add points to user
-  const dbUser = db.users.find(u => u.id === user.id);
-  if (dbUser) {
-    dbUser.points += pointsEarned;
+    // Create an Order record
+    const order = await Order.create({
+      userId: user._id,
+      gameId: gameIdStr || '000000000000000000000000', // placeholder ObjectId if no gameId
+      packageName: description,
+      amount,
+      status: 'Completed',
+      paymentMethod,
+      transactionId,
+      pointsEarned,
+    });
+
+    // Atomically update user: add points + lifetime total + order stats
+    await User.findByIdAndUpdate(user._id, {
+      $inc: {
+        points: pointsEarned,
+        totalPointsEarned: pointsEarned,
+        totalSpent: amount,
+        totalOrders: 1,
+      },
+    });
+
+    // Log the points transaction
+    await PointsTransaction.create({
+      userId: user._id,
+      type: 'earned',
+      points: pointsEarned,
+      description: `Earned from purchase: ${description}`,
+      orderId: order._id,
+    });
+
+    return { success: true, transactionId, pointsEarned };
+  } catch (err: any) {
+    console.error('[CHECKOUT ERROR]', err);
+    return { error: 'Payment processing failed. Please try again.' };
   }
-
-  await writeDb(db);
-
-  return { success: true, transactionId: newTransaction.id };
 }

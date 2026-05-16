@@ -66,6 +66,8 @@ export default function RechargeClient({
     const formData = new FormData();
     formData.append('amount', total.toFixed(2));
     formData.append('description', `${game.name} - ${selectedPkg.name} (${playerId}${zoneId ? ' / ' + zoneId : ''})`);
+    formData.append('gameId', (game as any)._id || '');
+    formData.append('paymentMethod', selectedPayment?.name || 'unknown');
 
     const result = await processCheckout(formData);
     setLoading(false);
@@ -294,20 +296,28 @@ export default function RechargeClient({
           
           <div className="flex items-center gap-4 w-full md:w-auto">
             {error && <p className="text-error text-xs font-bold animate-pulse hidden lg:block">{error}</p>}
-            <button 
-              onClick={handleCheckout}
-              disabled={loading || !selectedPkg || !selectedPayment}
-              className="flex-grow md:flex-none bg-gradient-to-r from-primary to-primary-container text-on-primary font-black uppercase tracking-widest px-12 py-4 rounded-xl shadow-[0_0_30px_rgba(0,242,255,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:scale-100 disabled:shadow-none flex items-center justify-center gap-3 text-sm"
-            >
-              {loading ? (
-                <span className="material-symbols-outlined animate-spin">progress_activity</span>
-              ) : (
-                <>
-                  <span className="material-symbols-outlined">payments</span>
-                  Buy Now
-                </>
+            <div className="flex flex-col items-end gap-1">
+              {selectedPkg && (
+                <span className="hidden lg:flex items-center gap-1 text-[10px] text-amber-400/80 font-bold">
+                  <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>stars</span>
+                  +{Math.floor(total * 10).toLocaleString()} PTS on purchase
+                </span>
               )}
-            </button>
+              <button 
+                onClick={handleCheckout}
+                disabled={loading || !selectedPkg || !selectedPayment}
+                className="flex-grow md:flex-none bg-gradient-to-r from-primary to-primary-container text-on-primary font-black uppercase tracking-widest px-12 py-4 rounded-xl shadow-[0_0_30px_rgba(0,242,255,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:scale-100 disabled:shadow-none flex items-center justify-center gap-3 text-sm"
+              >
+                {loading ? (
+                  <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined">payments</span>
+                    Buy Now
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

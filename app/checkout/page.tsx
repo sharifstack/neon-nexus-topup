@@ -231,7 +231,7 @@ export default function Checkout() {
                 <span className="material-symbols-outlined">download</span>
                 Download Receipt
               </button>
-              <Link href="/" className="bg-surface-container-highest hover:bg-surface-bright text-on-surface font-headline-md text-headline-md py-md px-xl rounded-lg transition-colors duration-300 border border-outline-variant/30 flex items-center justify-center">
+              <Link href="/marketplace" className="bg-surface-container-highest hover:bg-surface-bright text-on-surface font-headline-md text-headline-md py-md px-xl rounded-lg transition-colors duration-300 border border-outline-variant/30 flex items-center justify-center">
                 Return to Home
               </Link>
             </div>

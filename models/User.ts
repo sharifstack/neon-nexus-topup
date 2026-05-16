@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   passwordHash: string;
   points: number;
+  totalPointsEarned: number;
   role: 'admin' | 'user';
   isVerified: boolean;
   avatar?: string;
@@ -36,7 +37,8 @@ const UserSchema: Schema = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
-  points: { type: Number, default: 0 },
+  points:             { type: Number, default: 0 },
+  totalPointsEarned:  { type: Number, default: 0 },
   role: { type: String, enum: ['admin', 'user'], default: 'user' },
   isVerified: { type: Boolean, default: false },
   avatar: { type: String },

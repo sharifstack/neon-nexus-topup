@@ -23,8 +23,32 @@ export async function getSessionUser() {
     }
     
     const user = await User.findById(session.userId);
-    return user ? JSON.parse(JSON.stringify(user)) : null;
-  } catch (error) {
+    if (!user) return null;
+
+    if (user.status === 'banned') {
+      await destroySession();
+      const { redirect } = await import('next/navigation');
+      redirect(`/banned?reason=${encodeURIComponent(user.banReason || 'Violation of platform terms.')}`);
+    }
+
+    if (user.status === 'suspended') {
+      if (user.suspendedUntil && new Date(user.suspendedUntil) < new Date()) {
+        user.status = 'active';
+        user.suspendedUntil = undefined;
+        user.suspendReason = undefined;
+        await user.save();
+      } else {
+        await destroySession();
+        const { redirect } = await import('next/navigation');
+        redirect(`/suspended?reason=${encodeURIComponent(user.suspendReason || 'Platform policy violation.')}&until=${user.suspendedUntil?.toISOString() || ''}`);
+      }
+    }
+
+    return JSON.parse(JSON.stringify(user));
+  } catch (error: any) {
+    if (error?.digest?.startsWith('NEXT_REDIRECT') || error?.message === 'NEXT_REDIRECT') {
+      throw error;
+    }
     console.error('[AUTH] Failed to get session user:', error);
     return null;
   }

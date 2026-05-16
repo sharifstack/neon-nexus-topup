@@ -39,7 +39,7 @@ export default function Error({
           Try Again
         </button>
         <Link
-          href="/"
+          href="/marketplace"
           className="bg-white/5 text-white border border-white/10 px-8 py-3 rounded-xl font-bold uppercase tracking-widest hover:bg-white/10 transition-all"
         >
           Return Home
