@@ -37,7 +37,6 @@ export default function BannersClient() {
     setBadge(banner.badge || "");
     setHref(banner.href || "");
     setImageUrl(banner.imageUrl || "");
-    setFile(null);
     setIsModalOpen(true);
   };
 
