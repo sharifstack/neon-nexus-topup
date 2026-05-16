@@ -10,13 +10,19 @@ import {
   Users, 
   Settings,
   FileText,
-  ShieldAlert
+  ShieldAlert,
+  Image as ImageIcon,
+  Zap,
+  Star
 } from 'lucide-react';
 
 const navItems = [
   { name: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" />, href: '/admin' },
   { name: 'Analytics', icon: <BarChart3 className="w-5 h-5" />, href: '/admin/analytics' },
   { name: 'Inventory', icon: <Package className="w-5 h-5" />, href: '/admin/inventory' },
+  { name: 'Banners', icon: <ImageIcon className="w-5 h-5" />, href: '/admin/banners' },
+  { name: 'Deals & Drops', icon: <Zap className="w-5 h-5" />, href: '/admin/deals' },
+  { name: 'Points Store', icon: <Star className="w-5 h-5" />, href: '/admin/points' },
   { name: 'Orders', icon: <ShoppingCart className="w-5 h-5" />, href: '/admin/orders' },
   { name: 'Users', icon: <Users className="w-5 h-5" />, href: '/admin/users' },
   { name: 'Settings', icon: <Settings className="w-5 h-5" />, href: '/admin/settings' },

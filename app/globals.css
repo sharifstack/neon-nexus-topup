@@ -242,3 +242,20 @@
   animation: bounce-slow 6s ease-in-out infinite;
 }
 
+@utility no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(0, 242, 255, 0.3); }
+  50% { opacity: 0.8; box-shadow: 0 0 40px rgba(0, 242, 255, 0.5); }
+}
+
+@utility neon-pulse {
+  animation: neon-pulse 2s infinite ease-in-out;
+}
+

@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from 'react';
 import useSWR from 'swr';
+import toast from 'react-hot-toast';
+import CloudinaryUploader from '@/components/CloudinaryUploader';
 import { 
   Plus, 
   Search, 
@@ -94,22 +96,33 @@ export default function InventoryClient() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
+    const tid = "save-inventory";
+
     try {
-      const method = editingGame ? 'PUT' : 'POST';
-      const body = editingGame ? { ...formData, id: editingGame._id } : formData;
+      toast.loading("Saving product...", { id: tid });
+
+      // formData.coverImage and formData.bannerImage are already
+      // Cloudinary URLs — set by CloudinaryUploader via onChange.
+      const body = editingGame 
+        ? { ...formData, id: editingGame._id } 
+        : { ...formData };
       
+      const method = editingGame ? 'PUT' : 'POST';
       const res = await fetch('/api/admin/inventory', {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
       
-      if (res.ok) {
-        mutate();
-        setIsModalOpen(false);
-      }
-    } catch (err) {
-      console.error('Failed to save product');
+      const resData = await res.json();
+      if (!res.ok) throw new Error(resData.error || "Failed to save product");
+
+      toast.success(editingGame ? "Product updated!" : "Product created!", { id: tid });
+      mutate();
+      setIsModalOpen(false);
+    } catch (err: any) {
+      console.error('[INVENTORY SAVE]', err);
+      toast.error(err.message || "An error occurred", { id: tid });
     } finally {
       setIsSaving(false);
     }
@@ -416,20 +429,22 @@ export default function InventoryClient() {
 
                     <SectionTitle icon={ImageIcon} title="Media Assets" />
                     <div className="space-y-md">
-                      <InputGroup label="Thumbnail URL" placeholder="https://...">
-                        <input 
-                          value={formData.coverImage}
-                          onChange={(e) => setFormData({...formData, coverImage: e.target.value})}
-                          className="input-premium py-2.5 text-sm"
-                        />
-                      </InputGroup>
-                      <InputGroup label="Banner / GIF Background" placeholder="https://...">
-                        <input 
-                          value={formData.bannerImage}
-                          onChange={(e) => setFormData({...formData, bannerImage: e.target.value})}
-                          className="input-premium py-2.5 text-sm"
-                        />
-                      </InputGroup>
+                      <CloudinaryUploader
+                        folder="neon-nexus-inventory/covers"
+                        value={formData.coverImage || ''}
+                        onChange={(url) => setFormData({...formData, coverImage: url})}
+                        label="Cover Thumbnail"
+                        aspectRatio="square"
+                        maxSizeMB={5}
+                      />
+                      <CloudinaryUploader
+                        folder="neon-nexus-inventory/banners"
+                        value={formData.bannerImage || ''}
+                        onChange={(url) => setFormData({...formData, bannerImage: url})}
+                        label="Banner / Background Image (Optional)"
+                        aspectRatio="wide"
+                        maxSizeMB={10}
+                      />
                     </div>
                   </div>
 

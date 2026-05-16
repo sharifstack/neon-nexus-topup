@@ -1,6 +1,10 @@
-import { readDb } from "@/lib/db";
+import connectToDatabase from '@/lib/mongodb';
+import FlashDeal from '@/models/FlashDeal';
+import LiveDrop from '@/models/LiveDrop';
 import FlashSaleClient from "./FlashSaleClient";
 import LiveDropsSection from "./LiveDropsSection";
+
+export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Flash Deals – Neon Nexus',
@@ -8,17 +12,23 @@ export const metadata = {
 };
 
 export default async function FlashDealsPage() {
-  const db = await readDb();
-  const deals = db.flashDeals || [];
-  const drops = db.liveDrops || [];
+  await connectToDatabase();
+  
+  const [flashDealsData, liveDropsData] = await Promise.all([
+    FlashDeal.find({ isActive: true }).lean(),
+    LiveDrop.find({ isActive: true }).lean()
+  ]);
+
+  const deals = JSON.parse(JSON.stringify(flashDealsData || []));
+  const drops = JSON.parse(JSON.stringify(liveDropsData || []));
   
   // For the MVP, we take the first active deal
-  const featuredDeal = deals[0];
+  const featuredDeal = deals[0] || null;
 
   return (
     <div className="flex-grow bg-[#08080c] min-h-screen pb-24">
       {/* Dynamic Flash Sale Section */}
-      <FlashSaleClient deal={featuredDeal} />
+      {featuredDeal && <FlashSaleClient deal={featuredDeal} />}
 
       {/* Dynamic Live Drops Section */}
       <LiveDropsSection drops={drops} />

@@ -26,7 +26,7 @@ export default async function Account() {
         <div className="p-xl flex flex-col md:flex-row items-center gap-xl relative z-10">
           <div className="relative group">
             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-variant shadow-[0_0_30px_rgba(0,242,255,0.2)] group-hover:border-primary transition-colors duration-500">
-              <img alt="User Avatar Large" className="w-full h-full object-cover" src={user.avatar || "https://lh3.googleusercontent.com/aida-public/AB6AXuBduUDzqwbz1E1k5aAKZ1mulyHhf7k2d8rC50PnfeQuwHWL_qwiSnC8J851NovjY5NttO0Q6RBsNgGy12YmVtEzxTvHrjEJamRFO0iv4cTnZl8R88k4XL5H-fiOQgRTb03YxvOitv7SSc0BqnC6t-Ikev9OlU6U2T0KwoMpyNJ1t6t4UdAl2B_QjTMx3VM9GCwiAGTYLzpTUrhsONOWwmLCTzgeEbBn6Xbb3HRf8ydgl518irx9iVE2j7A68EXVcgXASAMvrMUmTI8"} />
+              <img alt="User Avatar Large" className="w-full h-full object-cover" src={user.avatar || `https://api.dicebear.com/7.x/identicon/svg?seed=${user.email}`} />
             </div>
             <div className="absolute bottom-0 right-0 bg-surface text-primary border border-primary/50 rounded-full p-xs shadow-[0_0_10px_rgba(0,242,255,0.4)]">
               <span className="material-symbols-outlined text-[16px]" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>

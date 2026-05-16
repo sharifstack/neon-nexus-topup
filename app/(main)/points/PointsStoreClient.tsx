@@ -422,8 +422,8 @@ export default function PointsStoreClient({ user }: { user: any }) {
             </div>
 
             {/* Balance Cards */}
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="bg-[#0d0d14]/80 backdrop-blur-md border border-amber-500/30 rounded-3xl px-6 py-4 flex flex-col items-center shadow-[0_0_40px_rgba(245,158,11,0.1)] relative overflow-hidden group min-w-[160px]">
+            <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
+              <div className="flex-1 md:flex-none bg-[#0d0d14]/80 backdrop-blur-md border border-amber-500/30 rounded-3xl px-6 py-4 flex flex-col items-center shadow-[0_0_40px_rgba(245,158,11,0.1)] relative overflow-hidden group min-w-[160px]">
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <span className="text-[10px] font-black text-amber-400/80 uppercase tracking-[0.3em] mb-2 z-10">Your Balance</span>
                 <div className="flex items-center gap-2 z-10">
@@ -432,7 +432,7 @@ export default function PointsStoreClient({ user }: { user: any }) {
                 </div>
               </div>
 
-              <div className="bg-[#0d0d14]/80 backdrop-blur-md border border-white/10 rounded-3xl px-6 py-4 flex flex-col items-center min-w-[160px] group">
+              <div className="flex-1 md:flex-none bg-[#0d0d14]/80 backdrop-blur-md border border-white/10 rounded-3xl px-6 py-4 flex flex-col items-center min-w-[160px] group">
                 <span className="text-[10px] font-black text-on-surface-variant/80 uppercase tracking-[0.3em] mb-2">Total Earned</span>
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-emerald-400 text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>trending_up</span>
@@ -443,13 +443,13 @@ export default function PointsStoreClient({ user }: { user: any }) {
               {user && (
                 <button
                   onClick={() => setShowHistory(v => !v)}
-                  className={`h-[84px] w-20 rounded-3xl border flex flex-col items-center justify-center transition-all duration-300 ${
+                  className={`h-full md:h-[84px] w-full md:w-20 rounded-3xl border py-4 md:py-0 flex flex-row md:flex-col items-center justify-center transition-all duration-300 ${
                     showHistory 
                       ? 'bg-primary/20 border-primary shadow-[0_0_30px_rgba(0,242,255,0.2)] text-primary' 
                       : 'bg-[#0d0d14]/80 border-white/10 text-on-surface-variant hover:border-white/30 hover:text-white backdrop-blur-md'
                   }`}
                 >
-                  <span className="text-[9px] font-black uppercase tracking-[0.2em] mb-1">History</span>
+                  <span className="text-[9px] font-black uppercase tracking-[0.2em] md:mb-1">History</span>
                   <span className="material-symbols-outlined text-2xl">receipt_long</span>
                 </button>
               )}
@@ -457,8 +457,8 @@ export default function PointsStoreClient({ user }: { user: any }) {
           </div>
 
           {/* How to earn info bar */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 bg-[#1a1c2e]/40 backdrop-blur-sm border border-white/5 rounded-[1.5rem] px-8 py-5">
-            <div className="flex items-center gap-2 pr-4 border-r border-white/10">
+          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 bg-[#1a1c2e]/40 backdrop-blur-sm border border-white/5 rounded-[1.5rem] px-8 py-5 overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-2 pr-4 border-r border-white/10 flex-shrink-0">
               <span className="text-[11px] font-black text-primary uppercase tracking-[0.2em]">Methods</span>
             </div>
             {[
@@ -466,7 +466,7 @@ export default function PointsStoreClient({ user }: { user: any }) {
               { icon: 'bolt', label: 'Instant Delivery', color: 'text-primary' },
               { icon: 'lock_open', label: 'Lifetime Validity', color: 'text-emerald-400' },
             ].map(item => (
-              <div key={item.label} className="flex items-center gap-3">
+              <div key={item.label} className="flex items-center gap-3 flex-shrink-0">
                 <div className={`w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center ${item.color}`}>
                   <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
                 </div>
@@ -486,7 +486,7 @@ export default function PointsStoreClient({ user }: { user: any }) {
               exit={{ opacity: 0, height: 0 }}
               className="mb-8 overflow-hidden"
             >
-              <div className="bg-[#0d0d14] border border-white/10 rounded-2xl overflow-hidden">
+              <div className="bg-[#0d0d14] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
                 <div className="px-5 py-3 border-b border-white/5 flex items-center justify-between">
                   <span className="text-white font-black text-sm uppercase tracking-widest flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary text-base">receipt_long</span>
@@ -494,7 +494,7 @@ export default function PointsStoreClient({ user }: { user: any }) {
                   </span>
                   <span className="text-on-surface-variant text-xs">{history.length} transactions</span>
                 </div>
-                <div className="px-5 max-h-64 overflow-y-auto">
+                <div className="px-5 max-h-64 overflow-y-auto no-scrollbar">
                   {history.length === 0 ? (
                     <div className="py-8 text-center text-on-surface-variant text-sm">
                       No transactions yet. Make a purchase to start earning!

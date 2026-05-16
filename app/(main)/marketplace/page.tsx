@@ -1,5 +1,6 @@
 import connectToDatabase from '@/lib/mongodb';
 import Game from '@/models/Game';
+import HeroBanner from '@/models/HeroBanner';
 import BannerCarousel from './BannerCarousel';
 import MarketplaceClient from './MarketplaceClient';
 import GameSlider from './GameSlider';
@@ -17,8 +18,11 @@ export default async function MarketplacePage() {
     console.log('[MARKETPLACE] Connecting to database...');
     await connectToDatabase();
     
-    console.log('[MARKETPLACE] Fetching products...');
-    const products = await Game.find({ isActive: true }).sort({ displayPriority: -1, createdAt: -1 }).lean();
+    console.log('[MARKETPLACE] Fetching products and banners...');
+    const [products, banners] = await Promise.all([
+      Game.find({ isActive: true }).sort({ displayPriority: -1, createdAt: -1 }).lean(),
+      HeroBanner.find({ isActive: true }).sort({ displayOrder: 1, createdAt: -1 }).lean()
+    ]);
     
     // Ensure we handle empty results gracefully
     if (!products) {
@@ -28,14 +32,15 @@ export default async function MarketplacePage() {
     // Convert Mongoose documents to plain objects for props
     // This is critical for Server-to-Client component data passing
     const games = JSON.parse(JSON.stringify(products || []));
+    const heroBanners = JSON.parse(JSON.stringify(banners || []));
 
-    console.log(`[MARKETPLACE] Rendering ${games.length} games`);
+    console.log(`[MARKETPLACE] Rendering ${games.length} games and ${heroBanners.length} banners`);
 
     return (
       <div className="flex-grow bg-[#0d1117] min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Animated banner carousel */}
-          <BannerCarousel />
+          <BannerCarousel banners={heroBanners} />
 
           {/* Games grid with client-side category filter */}
           <MarketplaceClient games={games} />
