@@ -3,17 +3,18 @@ import connectToDatabase from '@/lib/mongodb';
 import HeroBanner from '@/models/HeroBanner';
 import { getSessionUser } from '@/lib/auth';
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getSessionUser();
     if (!user || user.role !== 'admin') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
     await connectToDatabase();
     const data = await req.json();
 
-    const updatedBanner = await HeroBanner.findByIdAndUpdate(params.id, data, { new: true });
+    const updatedBanner = await HeroBanner.findByIdAndUpdate(id, data, { new: true });
     if (!updatedBanner) {
       return NextResponse.json({ error: 'Banner not found' }, { status: 404 });
     }
@@ -24,15 +25,16 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getSessionUser();
     if (!user || user.role !== 'admin') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
     await connectToDatabase();
-    const deletedBanner = await HeroBanner.findByIdAndDelete(params.id);
+    const deletedBanner = await HeroBanner.findByIdAndDelete(id);
     
     if (!deletedBanner) {
       return NextResponse.json({ error: 'Banner not found' }, { status: 404 });
