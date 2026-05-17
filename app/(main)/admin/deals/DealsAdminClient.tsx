@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { Plus, Edit2, Trash2, Save, X, Loader2, Zap, Package } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CloudinaryUploader from '@/components/CloudinaryUploader';
+import GameSelector from '@/components/GameSelector';
 
 const fetcher = (url: string) => fetch(url).then(r => r.json());
 
@@ -51,17 +52,51 @@ export default function DealsAdminClient() {
     setIsModalOpen(true);
   };
 
+  const handleGameSelect = (gameId: string, gameObj: any) => {
+    if (!gameObj) {
+      setFormData({ ...formData, gameId: '' });
+      return;
+    }
+
+    const updates: any = { gameId };
+
+    if (isFlash) {
+      if (!formData.title) updates.title = `${gameObj.name} Flash Deal`;
+      if (!formData.offerTitle) updates.offerTitle = `Special ${gameObj.currency || 'Package'}`;
+      if (!formData.backgroundMedia && (gameObj.bannerImage || gameObj.coverImage)) {
+        updates.backgroundMedia = gameObj.bannerImage || gameObj.coverImage;
+      }
+    } else {
+      if (!formData.name) updates.name = `${gameObj.name} Drop`;
+      if (!formData.description) updates.description = `Exclusive limited drop for ${gameObj.name}`;
+      if (!formData.image && gameObj.coverImage) {
+        updates.image = gameObj.coverImage;
+      }
+    }
+
+    setFormData({ ...formData, ...updates });
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
     const tid = 'save-deal';
 
     try {
+      if (!formData.gameId) {
+        throw new Error('Please select a game first');
+      }
+
       toast.loading(`Saving ${isFlash ? 'flash deal' : 'live drop'}...`, { id: tid });
 
       // CloudinaryUploader sets formData.backgroundMedia / formData.image via onChange
       const payload = { ...formData };
       if (editingItem) payload.id = editingItem._id;
+
+      // Extract raw ID if gameId is populated object
+      if (typeof payload.gameId === 'object' && payload.gameId !== null) {
+        payload.gameId = payload.gameId._id;
+      }
 
       const url = `/api/admin/deals/${isFlash ? 'flash' : 'drops'}`;
       const res = await fetch(url, {
@@ -81,6 +116,7 @@ export default function DealsAdminClient() {
       setIsSaving(false);
     }
   };
+
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this item?')) return;
     const res = await fetch(`/api/admin/deals/${isFlash ? 'flash' : 'drops'}?id=${id}`, { method: 'DELETE' });
@@ -94,8 +130,6 @@ export default function DealsAdminClient() {
       setFormData({ ...formData, [key]: e.target.value }),
     className: 'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white text-sm',
   });
-
-  const currentImageUrl = isFlash ? formData.backgroundMedia : formData.image;
 
   return (
     <div className="flex flex-col gap-xl">
@@ -132,11 +166,13 @@ export default function DealsAdminClient() {
           const img = isFlash ? item.backgroundMedia : item.image;
           const name = isFlash ? item.title : item.name;
           const sub = isFlash ? item.offerTitle : item.description;
+          const gameObj = item.gameId && typeof item.gameId === 'object' ? item.gameId : null;
+
           return (
-            <div key={item._id} className="bg-surface-variant/20 border border-outline-variant/10 rounded-2xl overflow-hidden">
+            <div key={item._id} className="bg-surface-variant/20 border border-outline-variant/10 rounded-2xl overflow-hidden group">
               <div className="h-44 relative">
                 {img ? (
-                  <img src={img} alt={name} className="w-full h-full object-cover opacity-70" />
+                  <img src={img} alt={name} className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500" />
                 ) : (
                   <div className="w-full h-full bg-surface-variant/20 flex items-center justify-center text-on-surface-variant/30">
                     <Zap className="w-10 h-10" />
@@ -148,6 +184,15 @@ export default function DealsAdminClient() {
                 </span>
               </div>
               <div className="p-4 border-t border-outline-variant/10 bg-surface/50">
+                {gameObj && (
+                  <div className="flex items-center gap-2 mb-2">
+                    {gameObj.coverImage && (
+                      <img src={gameObj.coverImage} alt={gameObj.name} className="w-5 h-5 rounded object-cover border border-white/10" />
+                    )}
+                    <span className="text-xs font-bold text-primary truncate">{gameObj.name}</span>
+                    <span className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-white/70 uppercase tracking-wider">{gameObj.category}</span>
+                  </div>
+                )}
                 <h3 className="font-bold text-white mb-1 line-clamp-1">{name}</h3>
                 <p className="text-xs text-on-surface-variant line-clamp-1 mb-3">{sub}</p>
                 <div className="flex justify-end gap-2">
@@ -176,6 +221,14 @@ export default function DealsAdminClient() {
 
               {/* Body */}
               <form onSubmit={handleSave} className="p-6 overflow-y-auto space-y-4 custom-scrollbar">
+                {/* Dynamic Game Selector */}
+                <GameSelector
+                  value={formData.gameId}
+                  onChange={handleGameSelect}
+                  label="Associated Game"
+                  required
+                />
+
                 {/* Media Upload */}
                 <CloudinaryUploader
                   folder={isFlash ? 'neon-nexus-deals/flash' : 'neon-nexus-deals/drops'}
@@ -189,7 +242,6 @@ export default function DealsAdminClient() {
                 {isFlash ? (
                   /* Flash Deal Fields — match FlashDeal schema exactly */
                   <div className="grid grid-cols-2 gap-4">
-                    <div><label className="block text-xs font-bold mb-2 text-white/50">GAME ID (MongoDB)</label><input required {...field('gameId')} placeholder="e.g. 6643..." /></div>
                     <div><label className="block text-xs font-bold mb-2 text-white/50">TITLE</label><input required {...field('title')} placeholder="PUBG Flash Deal" /></div>
                     <div><label className="block text-xs font-bold mb-2 text-white/50">OFFER TITLE</label><input required {...field('offerTitle')} placeholder="600 UC + 60 Bonus" /></div>
                     <div><label className="block text-xs font-bold mb-2 text-white/50">BONUS TEXT</label><input required {...field('bonusText')} placeholder="+10% extra today" /></div>
@@ -206,9 +258,7 @@ export default function DealsAdminClient() {
                 ) : (
                   /* Live Drop Fields — match LiveDrop schema */
                   <div className="grid grid-cols-2 gap-4">
-                    <div><label className="block text-xs font-bold mb-2 text-white/50">GAME ID (MongoDB)</label><input required {...field('gameId')} placeholder="e.g. 6643..." /></div>
                     <div><label className="block text-xs font-bold mb-2 text-white/50">NAME</label><input required {...field('name')} placeholder="PUBG Season Bundle" /></div>
-                    <div className="col-span-2"><label className="block text-xs font-bold mb-2 text-white/50">DESCRIPTION</label><textarea required rows={2} {...field('description')} placeholder="Exclusive season bundle with rare items..." className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white resize-none outline-none focus:border-primary/50" /></div>
                     <div>
                       <label className="block text-xs font-bold mb-2 text-white/50">BADGE</label>
                       <select {...field('badge')} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none">
@@ -217,6 +267,7 @@ export default function DealsAdminClient() {
                         <option>Restocked</option>
                       </select>
                     </div>
+                    <div className="col-span-2"><label className="block text-xs font-bold mb-2 text-white/50">DESCRIPTION</label><textarea required rows={2} {...field('description')} placeholder="Exclusive season bundle with rare items..." className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white resize-none outline-none focus:border-primary/50" /></div>
                     <div className="flex items-center gap-3 mt-4">
                       <input type="checkbox" id="ld-active" checked={!!formData.isActive} onChange={e => setFormData({...formData, isActive: e.target.checked})} className="accent-primary w-4 h-4" />
                       <label htmlFor="ld-active" className="text-sm text-white/70 font-bold">Active</label>

@@ -14,6 +14,7 @@ export interface IPointsReward extends Document {
   isFeatured: boolean;
   badgeLabel?: string;         // e.g. "HOT", "LIMITED", "POPULAR"
   game?: string;               // optional game association
+  gameId?: string | mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -32,6 +33,7 @@ const PointsRewardSchema: Schema = new Schema({
   isFeatured:      { type: Boolean, default: false },
   badgeLabel:      { type: String },
   game:            { type: String },
+  gameId:          { type: Schema.Types.ObjectId, ref: 'Game' },
 }, { timestamps: true });
 
 export default mongoose.models.PointsReward || mongoose.model<IPointsReward>('PointsReward', PointsRewardSchema);

@@ -83,11 +83,10 @@ const GameSchema: Schema = new Schema({
 }, { timestamps: true });
 
 // Auto-generate slug before saving if not provided
-GameSchema.pre('save', function(this: any, next: any) {
+GameSchema.pre('save', async function(this: any) {
   if (this.name && !this.slug) {
     this.slug = this.name.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
   }
-  next();
 });
 
 if (mongoose.models.Game) {

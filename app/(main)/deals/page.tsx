@@ -22,13 +22,10 @@ export default async function FlashDealsPage() {
   const deals = JSON.parse(JSON.stringify(flashDealsData || []));
   const drops = JSON.parse(JSON.stringify(liveDropsData || []));
   
-  // For the MVP, we take the first active deal
-  const featuredDeal = deals[0] || null;
-
   return (
     <div className="flex-grow bg-[#08080c] min-h-screen pb-24">
       {/* Dynamic Flash Sale Section */}
-      {featuredDeal && <FlashSaleClient deal={featuredDeal} />}
+      {deals.length > 0 && <FlashSaleClient deals={deals} />}
 
       {/* Dynamic Live Drops Section */}
       <LiveDropsSection drops={drops} />

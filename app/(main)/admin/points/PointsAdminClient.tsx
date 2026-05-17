@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { Plus, Edit2, Trash2, Save, X, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CloudinaryUploader from '@/components/CloudinaryUploader';
+import GameSelector from '@/components/GameSelector';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -16,32 +17,54 @@ export default function PointsAdminClient() {
   const [isSaving, setIsSaving] = useState(false);
 
   const [formData, setFormData] = useState<any>({
+    gameId: '',
     title: '',
     description: '',
     pointsCost: 1000,
+    rewardValue: '100 UC',
     image: '',
     stock: 100,
     isActive: true,
-    category: 'Vouchers'
+    category: 'vouchers'
   });
 
   const handleOpenModal = (reward: any = null) => {
     if (reward) {
       setEditingReward(reward);
-      setFormData(reward);
+      setFormData({
+        ...reward,
+        gameId: reward.gameId ? (typeof reward.gameId === 'object' ? reward.gameId._id : reward.gameId) : ''
+      });
     } else {
       setEditingReward(null);
       setFormData({
+        gameId: '',
         title: '',
         description: '',
         pointsCost: 1000,
+        rewardValue: '100 UC',
         image: '',
         stock: 100,
         isActive: true,
-        category: 'Vouchers'
+        category: 'vouchers'
       });
     }
     setIsModalOpen(true);
+  };
+
+  const handleGameSelect = (gameId: string, gameObj: any) => {
+    if (!gameObj) {
+      setFormData({ ...formData, gameId: '' });
+      return;
+    }
+    const updates: any = { gameId };
+    if (!formData.title) updates.title = `${gameObj.name} Voucher`;
+    if (!formData.rewardValue) updates.rewardValue = `100 ${gameObj.currency || 'Tokens'}`;
+    if (!formData.description) updates.description = `Redeem points for ${gameObj.name} in-game currency or discounts.`;
+    if (!formData.image && (gameObj.coverImage || gameObj.bannerImage)) {
+      updates.image = gameObj.coverImage || gameObj.bannerImage;
+    }
+    setFormData({ ...formData, ...updates });
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -57,6 +80,13 @@ export default function PointsAdminClient() {
         ? { ...formData, id: editingReward._id } 
         : { ...formData };
       
+      if (typeof body.gameId === 'object' && body.gameId !== null) {
+        body.gameId = body.gameId._id;
+      }
+      if (!body.gameId) {
+        delete body.gameId;
+      }
+
       const method = editingReward ? 'PUT' : 'POST';
       const res = await fetch('/api/admin/points', {
         method,
@@ -111,11 +141,18 @@ export default function PointsAdminClient() {
               <div className="h-40 relative">
                 <img src={reward.image} alt={reward.title} className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
-                <div className="absolute top-2 right-2 bg-secondary text-on-secondary px-3 py-1 rounded-full text-xs font-bold">
+                <div className="absolute top-2 right-2 bg-secondary text-on-secondary px-3 py-1 rounded-full text-xs font-bold shadow-lg">
                   {reward.pointsCost} PTS
                 </div>
               </div>
-              <div className="p-4 relative z-10 -mt-10">
+              <div className="p-4 relative z-10 -mt-10 bg-surface/90 backdrop-blur-md rounded-t-2xl border-t border-white/10">
+                {reward.gameId && reward.gameId.coverImage && (
+                  <div className="flex items-center gap-2 mb-2">
+                    <img src={reward.gameId.coverImage} alt={reward.gameId.name} className="w-5 h-5 rounded object-cover border border-white/10" />
+                    <span className="text-xs font-bold text-primary truncate">{reward.gameId.name}</span>
+                    <span className="text-[10px] bg-white/10 px-1.5 py-0.5 rounded text-white/70 uppercase tracking-wider">{reward.gameId.category}</span>
+                  </div>
+                )}
                 <div className="flex justify-end gap-2 mb-2">
                   <button onClick={() => handleOpenModal(reward)} className="p-2 bg-surface/80 rounded-lg hover:text-primary transition-colors">
                     <Edit2 className="w-4 h-4" />
@@ -124,7 +161,8 @@ export default function PointsAdminClient() {
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-                <h3 className="font-bold text-lg">{reward.title}</h3>
+                <h3 className="font-bold text-lg text-white mb-1">{reward.title}</h3>
+                <p className="text-xs font-semibold text-secondary mb-2">{reward.rewardValue}</p>
                 <p className="text-sm text-on-surface-variant line-clamp-2">{reward.description}</p>
               </div>
             </div>
@@ -139,23 +177,44 @@ export default function PointsAdminClient() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => !isSaving && setIsModalOpen(false)} />
             <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="bg-[#11111a] w-full max-w-2xl rounded-3xl relative z-10 border border-white/10 flex flex-col overflow-hidden max-h-[90vh]">
               <div className="p-6 border-b border-white/10 flex justify-between items-center">
-                <h2 className="text-xl font-bold">{editingReward ? 'Edit Reward' : 'New Reward'}</h2>
+                <h2 className="text-xl font-bold text-white">{editingReward ? 'Edit Reward' : 'New Reward'}</h2>
                 <button onClick={() => setIsModalOpen(false)} className="text-white/50 hover:text-white"><X /></button>
               </div>
-              <form onSubmit={handleSave} className="p-6 overflow-y-auto space-y-6">
+              <form onSubmit={handleSave} className="p-6 overflow-y-auto space-y-6 custom-scrollbar">
+                <GameSelector
+                  value={formData.gameId}
+                  onChange={handleGameSelect}
+                  label="Associated Game (Optional)"
+                />
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-bold text-white/50 mb-2">TITLE</label>
-                    <input required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                    <label className="block text-xs font-bold text-white/50 mb-2 uppercase">Title</label>
+                    <input required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary" placeholder="100 UC Voucher" />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-white/50 mb-2">POINTS COST</label>
-                    <input type="number" required value={formData.pointsCost} onChange={e => setFormData({...formData, pointsCost: parseInt(e.target.value)})} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary" />
+                    <label className="block text-xs font-bold text-white/50 mb-2 uppercase">Reward Value</label>
+                    <input required value={formData.rewardValue} onChange={e => setFormData({...formData, rewardValue: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary" placeholder="100 UC" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-white/50 mb-2 uppercase">Points Cost</label>
+                    <input type="number" required value={formData.pointsCost} onChange={e => setFormData({...formData, pointsCost: parseInt(e.target.value)})} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-white/50 mb-2 uppercase">Category</label>
+                    <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary">
+                      <option value="vouchers">Vouchers</option>
+                      <option value="uc">UC</option>
+                      <option value="diamonds">Diamonds</option>
+                      <option value="skins">Skins</option>
+                      <option value="passes">Passes</option>
+                      <option value="coins">Coins</option>
+                    </select>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-white/50 mb-2">DESCRIPTION</label>
-                  <textarea rows={3} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary resize-none" />
+                  <label className="block text-xs font-bold text-white/50 mb-2 uppercase">Description</label>
+                  <textarea rows={3} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary resize-none" placeholder="Redeemable voucher code..." />
                 </div>
                 <CloudinaryUploader
                   folder="neon-nexus-points"
@@ -167,8 +226,8 @@ export default function PointsAdminClient() {
                 />
               </form>
               <div className="p-6 border-t border-white/10 bg-white/5 flex justify-end gap-4">
-                <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 rounded-xl font-bold text-white/70">Cancel</button>
-                <button onClick={handleSave} disabled={isSaving} className="px-6 py-3 bg-primary text-black font-bold rounded-xl flex items-center gap-2 disabled:opacity-50">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="px-6 py-3 rounded-xl font-bold text-white/70 hover:text-white transition-colors">Cancel</button>
+                <button onClick={handleSave} disabled={isSaving} className="px-6 py-3 bg-primary text-black font-bold rounded-xl flex items-center gap-2 disabled:opacity-50 hover:scale-105 transition-all shadow-lg">
                   {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />} Save
                 </button>
               </div>

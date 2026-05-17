@@ -4,6 +4,7 @@ import { useState } from "react";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 import CloudinaryUploader from "@/components/CloudinaryUploader";
+import GameSelector from "@/components/GameSelector";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -13,6 +14,7 @@ export default function BannersClient() {
   const [editingBanner, setEditingBanner] = useState<any>(null);
   
   // Form State
+  const [gameId, setGameId] = useState("");
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [badge, setBadge] = useState("");
@@ -21,6 +23,7 @@ export default function BannersClient() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const resetForm = () => {
+    setGameId("");
     setTitle("");
     setSubtitle("");
     setBadge("");
@@ -32,12 +35,24 @@ export default function BannersClient() {
 
   const handleEdit = (banner: any) => {
     setEditingBanner(banner);
+    setGameId(banner.gameId ? (typeof banner.gameId === 'object' ? banner.gameId._id : banner.gameId) : "");
     setTitle(banner.title || "");
     setSubtitle(banner.subtitle || "");
     setBadge(banner.badge || "");
     setHref(banner.href || "");
     setImageUrl(banner.imageUrl || "");
     setIsModalOpen(true);
+  };
+
+  const handleGameSelect = (id: string, gameObj: any) => {
+    setGameId(id);
+    if (!gameObj) return;
+    if (!title) setTitle(gameObj.name);
+    if (!badge) setBadge(gameObj.category?.toUpperCase() || gameObj.name?.toUpperCase());
+    if (!href) setHref(`/marketplace/${gameObj.slug}`);
+    if (!imageUrl && (gameObj.bannerImage || gameObj.coverImage)) {
+      setImageUrl(gameObj.bannerImage || gameObj.coverImage);
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -65,7 +80,8 @@ export default function BannersClient() {
       currentToastId = "save-toast";
       toast.loading("Saving banner details...", { id: currentToastId });
 
-      const payload = { title, subtitle, badge, href, imageUrl };
+      const payload: any = { title, subtitle, badge, href, imageUrl };
+      if (gameId) payload.gameId = gameId;
 
       const url = editingBanner ? `/api/admin/banners/${editingBanner._id}` : "/api/admin/banners";
       const method = editingBanner ? "PUT" : "POST";
@@ -114,7 +130,12 @@ export default function BannersClient() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {banners.map((banner: any) => (
-          <div key={banner._id} className="bg-surface/50 border border-white/10 rounded-2xl overflow-hidden shadow-lg group">
+          <div key={banner._id} className="bg-surface/50 border border-white/10 rounded-2xl overflow-hidden shadow-lg group relative">
+            <div className="absolute top-4 left-4 flex items-center gap-2 z-10">
+              {banner.gameId && banner.gameId.coverImage && (
+                <img src={banner.gameId.coverImage} alt={banner.gameId.name} className="w-6 h-6 rounded-lg object-cover border border-white/20 shadow-lg" />
+              )}
+            </div>
             <div className="aspect-[16/9] w-full relative">
               <img src={banner.imageUrl} alt={banner.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
@@ -152,6 +173,11 @@ export default function BannersClient() {
 
             <div className="p-6 overflow-y-auto custom-scrollbar">
               <form id="bannerForm" onSubmit={handleSubmit} className="space-y-4">
+                <GameSelector
+                  value={gameId}
+                  onChange={handleGameSelect}
+                  label="Associated Game (Optional)"
+                />
                 <div>
                   <label className="block text-xs font-bold text-white/50 uppercase mb-2">Title</label>
                   <input required type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary outline-none" placeholder="Season Pass Direct Purchase!" />

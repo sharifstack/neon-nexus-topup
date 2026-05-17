@@ -2,7 +2,7 @@ export const dictionaries = {
   en: {
     nav: {
       marketplace: "Marketplace",
-      promos: "Promos",
+      promos: "Flash Deals",
       admin: "Admin",
       wallet: "Wallet",
       topUp: "Top Up",

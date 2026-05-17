@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "cdn2.steamgriddb.com" },
       { protocol: "https", hostname: "*.giphy.com" },
       { protocol: "https", hostname: "lh3.googleusercontent.com" },

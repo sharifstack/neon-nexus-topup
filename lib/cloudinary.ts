@@ -9,14 +9,16 @@ cloudinary.config({
 export async function uploadImage(
   fileBuffer: Buffer,
   folder: string = "neon-nexus",
-  options: { maxWidth?: number; maxHeight?: number } = {}
+  options: { maxWidth?: number; maxHeight?: number; isGif?: boolean } = {}
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder,
+        resource_type: "image",
         quality: "auto",
-        fetch_format: "auto",
+        fetch_format: options.isGif ? "gif" : "auto",
+        ...(options.isGif && { flags: "animated" }),
         ...(options.maxWidth && { width: options.maxWidth, crop: "limit" }),
         ...(options.maxHeight && { height: options.maxHeight, crop: "limit" }),
       },

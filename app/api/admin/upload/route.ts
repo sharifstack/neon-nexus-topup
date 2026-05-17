@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Cloudinary is not configured. Please add CLOUDINARY credentials to .env.local' }, { status: 500 });
     }
 
-    const secureUrl = await uploadImage(buffer, folder);
+    const secureUrl = await uploadImage(buffer, folder, { isGif: file.type === 'image/gif' });
     return NextResponse.json({ url: secureUrl });
   } catch (error: any) {
     console.error('[UPLOAD] Image upload error:', error);

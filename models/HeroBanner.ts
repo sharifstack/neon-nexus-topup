@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const HeroBannerSchema = new mongoose.Schema(
   {
+    gameId: { type: mongoose.Schema.Types.ObjectId, ref: 'Game' },
     title: { type: String, required: true },
     subtitle: { type: String },
     badge: { type: String },

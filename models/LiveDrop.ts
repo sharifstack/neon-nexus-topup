@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const LiveDropSchema = new mongoose.Schema(
   {
-    gameId: { type: String, required: true },
+    gameId: { type: mongoose.Schema.Types.ObjectId, ref: 'Game', required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
     image: { type: String, required: true },
