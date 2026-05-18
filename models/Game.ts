@@ -15,6 +15,7 @@ export interface IGame extends Document {
   name: string;
   slug: string;
   coverImage: string;
+  iconImage?: string;
   bannerImage: string;
   featuredBackgroundUrl?: string;
   tag?: string;
@@ -57,6 +58,7 @@ const GameSchema: Schema = new Schema({
   name: { type: String, required: true },
   slug: { type: String, required: true, unique: true },
   coverImage: { type: String, required: true },
+  iconImage: { type: String },
   bannerImage: { type: String, required: true },
   featuredBackgroundUrl: { type: String },
   tag: { type: String },
