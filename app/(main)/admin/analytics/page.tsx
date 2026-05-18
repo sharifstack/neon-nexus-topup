@@ -1,10 +1,10 @@
-import AdminSidebar from './components/AdminSidebar';
-import AnalyticsClient from './analytics/AnalyticsClient';
+import AdminSidebar from '../components/AdminSidebar';
+import AnalyticsClient from './AnalyticsClient';
 import { Calendar } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-export default function AdminPage() {
+export default function AnalyticsPage() {
   return (
     <div className="flex relative min-h-screen">
       <AdminSidebar />
@@ -15,7 +15,7 @@ export default function AdminPage() {
           {/* Page Header */}
           <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-md">
             <div>
-              <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface mb-xs">Admin Dashboard</h2>
+              <h2 className="font-headline-lg text-headline-lg font-bold text-on-surface mb-xs">Analytics Overview</h2>
               <p className="font-body-md text-body-md text-on-surface-variant">Real-time performance metrics for Neon Nexus.</p>
             </div>
           </header>
@@ -26,4 +26,3 @@ export default function AdminPage() {
     </div>
   );
 }
-

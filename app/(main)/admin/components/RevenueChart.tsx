@@ -12,17 +12,37 @@ import {
 } from 'recharts';
 
 interface RevenueChartProps {
-  data: { _id: string; revenue: number }[];
+  data: { date: string; revenue: number; orders: number; avgOrderValue: number }[];
 }
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className="bg-[#0f172a]/95 backdrop-blur-md border border-outline-variant/30 rounded-xl p-sm shadow-xl">
+        <p className="text-label-sm font-label-sm text-on-surface-variant mb-xs">{label}</p>
+        <p className="text-body-md font-bold text-primary">${data.revenue.toLocaleString()}</p>
+        <div className="flex items-center gap-md mt-2 text-[11px] text-on-surface-variant">
+          <span>{data.orders} Orders</span>
+          <span>•</span>
+          <span>Avg: ${data.avgOrderValue.toFixed(2)}</span>
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function RevenueChart({ data }: RevenueChartProps) {
   const chartData = useMemo(() => {
-    // Fill in missing days with 0 revenue if necessary
-    // For simplicity, just format the existing data
-    return data.map(item => ({
-      date: new Date(item._id).toLocaleDateString('en-US', { weekday: 'short' }),
-      revenue: item.revenue
-    }));
+    return data.map(item => {
+      // Create date without timezone shift
+      const d = new Date(item.date + 'T12:00:00Z');
+      return {
+        ...item,
+        displayDate: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      };
+    });
   }, [data]);
 
   return (
@@ -37,27 +57,21 @@ export default function RevenueChart({ data }: RevenueChartProps) {
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
           <XAxis 
-            dataKey="date" 
+            dataKey="displayDate" 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fill: '#94a3b8', fontSize: 12 }}
+            tick={{ fill: '#94a3b8', fontSize: 11 }}
             dy={10}
+            minTickGap={20}
           />
           <YAxis 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fill: '#94a3b8', fontSize: 12 }}
+            tick={{ fill: '#94a3b8', fontSize: 11 }}
             tickFormatter={(value) => `$${value}`}
+            dx={-10}
           />
-          <Tooltip 
-            contentStyle={{ 
-              backgroundColor: '#0f172a', 
-              border: '1px solid #1e293b',
-              borderRadius: '12px',
-              color: '#fff'
-            }}
-            itemStyle={{ color: '#00f2ff' }}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Area 
             type="monotone" 
             dataKey="revenue" 

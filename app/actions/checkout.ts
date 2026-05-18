@@ -19,10 +19,17 @@ export async function processCheckout(formData: FormData) {
   const amountStr = formData.get('amount') as string;
   const description = formData.get('description') as string || 'Neon Nexus Top Up';
   const gameIdStr = formData.get('gameId') as string | null;
+  const packageName = formData.get('packageName') as string || description;
   const paymentMethod = formData.get('paymentMethod') as string || 'unknown';
+  const gamePlayerId = formData.get('gamePlayerId') as string | undefined;
+  const gameZoneId = formData.get('gameZoneId') as string | undefined;
 
   if (!amountStr) {
     return { error: 'Invalid amount.' };
+  }
+  
+  if (!gameIdStr || gameIdStr.trim() === '') {
+    return { error: 'Game reference missing. Please try again.' };
   }
 
   const amount = parseFloat(amountStr);
@@ -39,16 +46,20 @@ export async function processCheckout(formData: FormData) {
     const transactionId = `NX-${randomUUID().slice(0, 8).toUpperCase()}`;
 
     // Create an Order record
-    const order = await Order.create({
+    const orderData: any = {
       userId: user._id,
-      gameId: gameIdStr || '000000000000000000000000', // placeholder ObjectId if no gameId
-      packageName: description,
+      gameId: gameIdStr,
+      packageName,
       amount,
       status: 'Completed',
       paymentMethod,
       transactionId,
       pointsEarned,
-    });
+      gamePlayerId,
+      gameZoneId,
+    };
+
+    const order = await Order.create(orderData);
 
     // Atomically update user: add points + lifetime total + order stats
     await User.findByIdAndUpdate(user._id, {

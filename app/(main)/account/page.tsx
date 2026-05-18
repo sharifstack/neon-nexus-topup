@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getSessionUser } from "@/lib/auth";
-import { readDb } from "@/lib/db";
+import connectMongo from "@/lib/mongodb";
+import Order from "@/models/Order";
 import { redirect } from "next/navigation";
 import ProfileSettings from "./ProfileSettings";
 import { formatPrice } from "@/lib/currency";
@@ -11,12 +12,14 @@ export default async function Account() {
     redirect('/login');
   }
 
-  const db = await readDb();
-  // Filter and sort transactions (newest first)
-  const transactions = db.transactions
-    .filter(t => t.userId === user.id)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 5); // Show only recent 5
+  await connectMongo();
+
+  // Fetch actual recent transactions for this user securely
+  const transactions = await Order.find({ userId: user._id || user.id })
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .populate('gameId', 'name slug iconImage coverImage bannerImage category')
+    .lean();
 
   return (
     <div className="flex-1 w-full max-w-container-max mx-auto px-gutter py-xl flex flex-col gap-xl">
@@ -64,31 +67,64 @@ export default async function Account() {
               </h2>
             </div>
             
-            <div className="flex flex-col gap-xs">
+            <div className="flex flex-col gap-sm">
               {transactions.length === 0 ? (
-                <p className="text-on-surface-variant italic">No transactions found.</p>
+                <div className="flex flex-col items-center justify-center py-xl border border-dashed border-outline-variant/30 rounded-xl bg-surface/20">
+                  <span className="material-symbols-outlined text-4xl text-outline-variant mb-md">receipt_long</span>
+                  <p className="text-on-surface-variant font-medium text-sm mb-4">No transactions yet.</p>
+                  <Link href="/" className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 px-lg py-2 rounded-lg font-bold text-sm transition-colors shadow-sm">
+                    Start Shopping
+                  </Link>
+                </div>
               ) : (
-                transactions.map((tx) => (
-                  <div key={tx.id} className="flex items-center justify-between p-md rounded-lg bg-surface/50 hover:bg-surface-variant/40 transition-colors border border-transparent hover:border-outline-variant/20">
+                transactions.map((tx: any) => {
+                  const txId = tx.transactionId || tx._id.toString();
+                  const game = tx.gameId;
+                  const gameName = game?.name || 'Deleted Game';
+                  const gameImage = game?.iconImage || game?.coverImage || game?.bannerImage;
+                  
+                  return (
+                  <div key={tx._id.toString()} className="flex items-center justify-between p-md rounded-xl bg-surface-container-low/50 hover:bg-surface-variant/30 transition-all border border-outline-variant/10 hover:border-outline-variant/30 group">
                     <div className="flex items-center gap-md">
-                      <div className="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-primary shadow-[inset_0_0_10px_rgba(0,242,255,0.1)]">
-                        <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>sports_esports</span>
+                      <div className="w-12 h-12 rounded-lg bg-surface-container overflow-hidden flex items-center justify-center text-primary border border-white/5 shadow-sm flex-shrink-0">
+                        {gameImage ? (
+                          <img src={gameImage} alt={gameName} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>sports_esports</span>
+                        )}
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-label-md text-label-md text-on-surface">{tx.description}</span>
-                        <span className="font-label-sm text-label-sm text-on-surface-variant">
-                          ID: {tx.id} • {new Date(tx.date).toLocaleDateString()}
+                        <span className="font-bold text-sm text-on-surface group-hover:text-primary transition-colors">
+                          {gameName} — {tx.packageName}
                         </span>
+                        <div className="flex items-center gap-2 mt-1">
+                          {tx.gamePlayerId && (
+                            <span className="font-medium text-[10px] text-on-surface-variant bg-surface-container px-2 py-0.5 rounded uppercase tracking-wider">
+                              ID: {tx.gamePlayerId}
+                            </span>
+                          )}
+                          <span className="font-medium text-[11px] text-outline-variant flex items-center gap-1">
+                            <span className="material-symbols-outlined text-[12px]">calendar_today</span>
+                            {new Date(tx.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex flex-col items-end">
-                      <span className="font-headline-sm text-headline-sm text-on-surface">{formatPrice(tx.amount, (tx as any).currency || 'BDT')}</span>
-                      <span className="font-label-sm text-label-sm text-tertiary flex items-center gap-xs">
-                        +{tx.pointsEarned} PTS
-                      </span>
+                    <div className="flex flex-col items-end flex-shrink-0 ml-4">
+                      <span className="font-bold text-base text-on-surface tracking-tight">{formatPrice(tx.amount, 'BDT')}</span>
+                      {tx.pointsEarned > 0 ? (
+                        <span className="font-bold text-[10px] text-tertiary flex items-center gap-1 mt-1">
+                          <span className="material-symbols-outlined text-[14px]">military_tech</span>
+                          +{tx.pointsEarned} PTS
+                        </span>
+                      ) : (
+                        <span className="font-mono text-[10px] text-outline-variant mt-1">
+                          #{txId.slice(-6).toUpperCase()}
+                        </span>
+                      )}
                     </div>
                   </div>
-                ))
+                )})
               )}
             </div>
           </section>
