@@ -60,63 +60,68 @@ export async function seedDatabaseIfNeeded() {
     }
 
     // 2. Sync Games
-    const flashDealGameIds = (data.flashDeals || []).map((f: any) => f.gameId);
+    const gameCount = await Game.countDocuments();
+    if (gameCount > 0) {
+      console.log('[DB] Games collection is not empty. Skipping data.json legacy sync to prevent overriding live MongoDB assets.');
+    } else {
+      const flashDealGameIds = (data.flashDeals || []).map((f: any) => f.gameId);
 
-    for (const g of data.games || []) {
-      const gameSlug = g.id || g.name.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
-      
-      const gameData = {
-        name: g.name,
-        slug: gameSlug,
-        coverImage: g.coverImage,
-        bannerImage: g.bannerImage,
-        featuredBackgroundUrl: g.featuredBackgroundUrl,
-        tag: g.tag,
-        tagColor: g.tagColor || 'bonus',
-        category: g.category,
-        type: g.category === 'Mini Game' ? 'minigame' : 'game',
-        isMiniGame: g.category === 'Mini Game',
-        isFlashDeal: flashDealGameIds.includes(g.id),
-        currency: g.currency || 'UC',
-        description: g.description,
-        requiresZoneId: g.requiresZoneId || false,
-        playUrl: g.playUrl,
-        isFeatured: g.isFeatured || g.isFeaturedMiniGame || false,
-        isActive: true,
-        packages: g.packages.map((p: any) => ({
-          id: p.id,
-          name: p.name,
-          price: p.price,
-          originalPrice: p.originalPrice,
-          bonus: p.bonus,
-          popular: p.popular || false,
-          bestSeller: p.bestSeller || false
-        }))
-      };
+      for (const g of data.games || []) {
+        const gameSlug = g.id || g.name.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+        
+        const gameData = {
+          name: g.name,
+          slug: gameSlug,
+          coverImage: g.coverImage,
+          bannerImage: g.bannerImage,
+          featuredBackgroundUrl: g.featuredBackgroundUrl,
+          tag: g.tag,
+          tagColor: g.tagColor || 'bonus',
+          category: g.category,
+          type: g.category === 'Mini Game' ? 'minigame' : 'game',
+          isMiniGame: g.category === 'Mini Game',
+          isFlashDeal: flashDealGameIds.includes(g.id),
+          currency: g.currency || 'UC',
+          description: g.description,
+          requiresZoneId: g.requiresZoneId || false,
+          playUrl: g.playUrl,
+          isFeatured: g.isFeatured || g.isFeaturedMiniGame || false,
+          isActive: true,
+          packages: g.packages.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            price: p.price,
+            originalPrice: p.originalPrice,
+            bonus: p.bonus,
+            popular: p.popular || false,
+            bestSeller: p.bestSeller || false
+          }))
+        };
 
-      await Game.findOneAndUpdate(
-        { slug: gameSlug },
-        { $set: gameData },
-        { upsert: true, new: true }
-      );
-    }
+        await Game.findOneAndUpdate(
+          { slug: gameSlug },
+          { $set: gameData },
+          { upsert: true, new: true }
+        );
+      }
 
-    // 3. Sync Flash Deals
-    for (const fd of data.flashDeals || []) {
-      await FlashDeal.findOneAndUpdate(
-        { gameId: fd.gameId },
-        { $set: { ...fd, isActive: true } },
-        { upsert: true }
-      );
-    }
+      // 3. Sync Flash Deals
+      for (const fd of data.flashDeals || []) {
+        await FlashDeal.findOneAndUpdate(
+          { gameId: fd.gameId },
+          { $set: { ...fd, isActive: true } },
+          { upsert: true }
+        );
+      }
 
-    // 4. Sync Live Drops
-    for (const ld of data.liveDrops || []) {
-      await LiveDrop.findOneAndUpdate(
-        { gameId: ld.gameId },
-        { $set: { ...ld, isActive: true } },
-        { upsert: true }
-      );
+      // 4. Sync Live Drops
+      for (const ld of data.liveDrops || []) {
+        await LiveDrop.findOneAndUpdate(
+          { gameId: ld.gameId },
+          { $set: { ...ld, isActive: true } },
+          { upsert: true }
+        );
+      }
     }
 
     // 5. Initial Hero Banners (Fallback from old code)

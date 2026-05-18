@@ -107,7 +107,7 @@ export default function FlashSaleClient({ deals }: { deals: FlashDeal[] }) {
               {/* Left: Media / Preview Container */}
               <div className="lg:col-span-6 relative h-72 md:h-96 rounded-3xl overflow-hidden border border-white/10 shadow-lg bg-[#0a-0f-1d] flex items-center justify-center">
                 <MediaRenderer
-                  src={featuredDeal.backgroundMedia}
+                  src={(featuredDeal.gameId as any)?.featuredBackgroundUrl || (featuredDeal.gameId as any)?.bannerImage || (featuredDeal.gameId as any)?.coverImage || featuredDeal.backgroundMedia}
                   alt={featuredDeal.title}
                   fill
                   className="group-hover:scale-105 transition-transform duration-700 opacity-90"
@@ -162,7 +162,7 @@ export default function FlashSaleClient({ deals }: { deals: FlashDeal[] }) {
                     <span className="text-on-surface-variant text-base font-bold line-through opacity-50">${featuredDeal.originalPrice}</span>
                   </div>
                   <Link
-                    href={`/marketplace/${featuredDeal.gameId}`}
+                    href={`/marketplace/${typeof featuredDeal.gameId === 'object' ? (featuredDeal.gameId as any)._id || (featuredDeal.gameId as any).id : featuredDeal.gameId}`}
                     className="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-cyan-600 text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-3 hover:from-cyan-400 hover:to-cyan-500 transition-all shadow-lg hover:shadow-[0_4px_20px_rgba(6,182,212,0.3)] active:scale-95"
                   >
                     SECURE DEAL
@@ -200,7 +200,7 @@ export default function FlashSaleClient({ deals }: { deals: FlashDeal[] }) {
                 {/* Media Header */}
                 <div className="relative h-56 overflow-hidden bg-[#0a0f1d]">
                   <MediaRenderer
-                    src={item.backgroundMedia}
+                    src={(item.gameId as any)?.bannerImage || (item.gameId as any)?.featuredBackgroundUrl || (item.gameId as any)?.coverImage || item.backgroundMedia}
                     alt={item.title}
                     fill
                     className="group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100"
@@ -243,7 +243,7 @@ export default function FlashSaleClient({ deals }: { deals: FlashDeal[] }) {
                       <span className="text-white text-2xl font-black tabular-nums">${item.discountedPrice}</span>
                     </div>
                     <Link
-                      href={`/marketplace/${item.gameId}`}
+                      href={`/marketplace/${typeof item.gameId === 'object' ? (item.gameId as any)._id || (item.gameId as any).id : item.gameId}`}
                       className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500/20 to-cyan-600/20 hover:from-cyan-500 hover:to-cyan-600 text-cyan-400 hover:text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all border border-cyan-500/30 hover:border-transparent shadow-md active:scale-95"
                     >
                       Secure Deal

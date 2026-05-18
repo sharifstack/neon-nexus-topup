@@ -163,16 +163,17 @@ export default function DealsAdminClient() {
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-md">
         {(isFlash ? flashDeals : liveDrops)?.map((item: any) => {
+          const gameObj = item.gameId && typeof item.gameId === 'object' ? item.gameId : null;
           const img = isFlash ? item.backgroundMedia : item.image;
+          const finalImg = img || gameObj?.bannerImage || gameObj?.featuredBackgroundUrl || gameObj?.coverImage;
           const name = isFlash ? item.title : item.name;
           const sub = isFlash ? item.offerTitle : item.description;
-          const gameObj = item.gameId && typeof item.gameId === 'object' ? item.gameId : null;
 
           return (
             <div key={item._id} className="bg-surface-variant/20 border border-outline-variant/10 rounded-2xl overflow-hidden group">
               <div className="h-44 relative">
-                {img ? (
-                  <img src={img} alt={name} className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500" />
+                {finalImg ? (
+                  <img src={finalImg} alt={name} className="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500" />
                 ) : (
                   <div className="w-full h-full bg-surface-variant/20 flex items-center justify-center text-on-surface-variant/30">
                     <Zap className="w-10 h-10" />

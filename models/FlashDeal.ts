@@ -9,7 +9,7 @@ export interface IFlashDeal extends Document {
   discountedPrice: number;
   stockStatus: number; // 0-100 percentage
   limitedQuantity: string;
-  backgroundMedia: string; // GIF/Image URL
+  backgroundMedia?: string; // GIF/Image URL
   endsAt: Date | 'DAILY_RESET';
   isActive: boolean;
 }
@@ -23,7 +23,7 @@ const FlashDealSchema: Schema = new Schema({
   discountedPrice: { type: Number, required: true },
   stockStatus: { type: Number, default: 100 },
   limitedQuantity: { type: String },
-  backgroundMedia: { type: String, required: true },
+  backgroundMedia: { type: String },
   endsAt: { type: Schema.Types.Mixed, required: true }, // Date or "DAILY_RESET"
   isActive: { type: Boolean, default: true },
 }, { timestamps: true });

@@ -15,8 +15,8 @@ export default async function FlashDealsPage() {
   await connectToDatabase();
   
   const [flashDealsData, liveDropsData] = await Promise.all([
-    FlashDeal.find({ isActive: true }).lean(),
-    LiveDrop.find({ isActive: true }).lean()
+    FlashDeal.find({ isActive: true }).populate('gameId').lean(),
+    LiveDrop.find({ isActive: true }).populate('gameId').lean()
   ]);
 
   const deals = JSON.parse(JSON.stringify(flashDealsData || []));

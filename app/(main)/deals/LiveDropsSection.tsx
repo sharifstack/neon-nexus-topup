@@ -41,7 +41,7 @@ export default function LiveDropsSection({ drops }: { drops: LiveDrop[] }) {
               {/* Image Layer */}
               <div className="relative h-56 overflow-hidden bg-[#0a0f1d]">
                 <MediaRenderer
-                  src={drop.image}
+                  src={(drop.gameId as any)?.bannerImage || (drop.gameId as any)?.featuredBackgroundUrl || (drop.gameId as any)?.coverImage || drop.image}
                   alt={drop.name}
                   fill
                   className="group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100"
@@ -80,7 +80,7 @@ export default function LiveDropsSection({ drops }: { drops: LiveDrop[] }) {
                     <span className="text-white text-2xl font-black tabular-nums">$5.99</span>
                   </div>
                   <Link
-                    href={`/marketplace/${drop.gameId}`}
+                    href={`/marketplace/${typeof drop.gameId === 'object' ? (drop.gameId as any)._id || (drop.gameId as any).id : drop.gameId}`}
                     className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500/20 to-cyan-600/20 hover:from-cyan-500 hover:to-cyan-600 text-cyan-400 hover:text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all border border-cyan-500/30 hover:border-transparent shadow-md active:scale-95"
                   >
                     Claim Drop
