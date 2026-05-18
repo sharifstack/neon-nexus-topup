@@ -5,6 +5,7 @@ import { Game, Package, PaymentMethod } from '@/lib/db';
 import { processCheckout } from '@/app/actions/checkout';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import MediaRenderer from '@/components/MediaRenderer';
 import { formatPrice } from '@/lib/currency';
 
 const GAME_ICONS: Record<string, string> = {
@@ -89,12 +90,11 @@ export default function RechargeClient({
         <div className="sticky top-24">
           <div className="rounded-2xl overflow-hidden bg-surface-container-high border border-white/5 p-6 shadow-xl">
             <div className="relative w-32 h-32 rounded-2xl overflow-hidden mb-6 mx-auto lg:mx-0 border-2 border-white/10">
-              <Image 
+              <MediaRenderer 
                 src={gameIcon} 
                 alt={game.name} 
                 fill 
                 className="object-cover"
-                unoptimized
               />
             </div>
             <h1 className="text-white text-2xl font-bold mb-2 uppercase tracking-wide">{game.name}</h1>

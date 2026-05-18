@@ -2,6 +2,19 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    domains: [
+      "res.cloudinary.com",
+      "cdn2.steamgriddb.com",
+      "play-lh.googleusercontent.com",
+      "lh3.googleusercontent.com",
+      "media4.giphy.com",
+      "m.media-amazon.com",
+      "supercell.com",
+      "encrypted-tbn0.gstatic.com",
+      "www.midasbuy.com",
+      "midasbuy.akamaized.net",
+      "upload.wikimedia.org"
+    ],
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "cdn2.steamgriddb.com" },

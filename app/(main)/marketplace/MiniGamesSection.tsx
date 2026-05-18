@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/LanguageContext';
+import MediaRenderer from '@/components/MediaRenderer';
 
 const GAME_ICONS: Record<string, string> = {
   "eight-ball-pool": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/8_Ball_Pool_cover.jpg/250px-8_Ball_Pool_cover.jpg",
@@ -36,12 +37,11 @@ export default function MiniGamesSection({ games }: { games: any[] }) {
       {featured && (
         <div className="group relative w-full h-auto md:h-[200px] rounded-3xl overflow-hidden bg-[#161b22] border border-white/5 flex flex-col md:flex-row items-center shadow-2xl transition-all duration-500 hover:shadow-[0_0_60px_rgba(0,242,255,0.15)]">
           <div className="absolute inset-0 z-0">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <MediaRenderer
               src={featured.featuredBackgroundUrl || featured.bannerImage}
               alt="background"
-              className="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-[5s]"
-              onError={(e) => { (e.target as HTMLImageElement).src = featured.bannerImage; }}
+              fill
+              className="opacity-30 group-hover:scale-105 transition-transform duration-[5s]"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent z-10" />
           </div>
@@ -51,12 +51,11 @@ export default function MiniGamesSection({ games }: { games: any[] }) {
             <div className="relative w-28 h-28 md:w-36 md:h-36 flex-shrink-0">
               <div className="absolute inset-0 bg-primary/30 rounded-3xl blur-3xl group-hover:bg-primary/50 transition-colors" />
               <div className="relative w-full h-full rounded-3xl border-2 border-white/20 p-2 overflow-hidden bg-black/40 backdrop-blur-sm shadow-2xl">
-                <Image
+                <MediaRenderer
                   src={GAME_ICONS[featured.id] || featured.coverImage}
                   alt={featured.name}
                   fill
-                  className="object-cover rounded-2xl"
-                  unoptimized
+                  className="rounded-2xl"
                 />
               </div>
             </div>
@@ -101,24 +100,21 @@ export default function MiniGamesSection({ games }: { games: any[] }) {
             className="group relative h-[120px] md:h-[140px] rounded-2xl overflow-hidden bg-[#161b22] border border-white/5 flex items-center shadow-lg transition-all duration-300 hover:-translate-y-1"
           >
             <div className="absolute inset-0 z-0">
-              <Image
+              <MediaRenderer
                 src={game.bannerImage}
                 alt={game.name}
                 fill
-                className="object-cover opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700"
-                unoptimized
+                className="opacity-20 group-hover:opacity-40 group-hover:scale-110 transition-all duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-[#161b22] via-[#161b22]/90 to-transparent" />
             </div>
 
             <div className="relative z-10 flex items-center gap-4 px-5 w-full">
               <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0 rounded-xl overflow-hidden border border-white/10 shadow-lg">
-                <Image
+                <MediaRenderer
                   src={GAME_ICONS[game.id] || game.coverImage}
                   alt={game.name}
                   fill
-                  className="object-cover"
-                  unoptimized
                 />
               </div>
 

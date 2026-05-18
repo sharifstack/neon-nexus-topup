@@ -67,16 +67,23 @@ export default function MediaRenderer({
     );
   }
 
+  // Force HTTPS for Cloudinary to prevent Mixed Content and remotePatterns mismatches
+  const finalSrc = imgSrc?.startsWith("http://res.cloudinary.com") 
+    ? imgSrc.replace("http://", "https://") 
+    : imgSrc;
+
+  const sizes = fill ? "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" : undefined;
+
   return (
     <Image
-      src={imgSrc}
+      src={finalSrc}
       alt={alt}
       fill={fill}
       width={!fill ? (width || 500) : undefined}
       height={!fill ? (height || 300) : undefined}
+      sizes={sizes}
       className={`object-cover ${className}`}
       priority={priority}
-      unoptimized
       onError={handleError}
     />
   );

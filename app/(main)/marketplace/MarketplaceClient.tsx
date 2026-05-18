@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useTranslation } from "@/lib/LanguageContext";
+import MediaRenderer from "@/components/MediaRenderer";
 
 const TAG_STYLES: Record<string, string> = {
   discount: "bg-gradient-to-r from-yellow-500 to-orange-500",
@@ -76,9 +77,10 @@ export default function MarketplaceClient({ games }: { games: any[] }) {
                               group-hover:-translate-y-2
                               group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]
                               bg-[#161b22] border border-white/5">
-                <img
+                <MediaRenderer
                   src={img}
                   alt={game.name}
+                  fill
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />

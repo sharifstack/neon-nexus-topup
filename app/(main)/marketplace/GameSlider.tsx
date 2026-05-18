@@ -2,6 +2,8 @@
 
 import { useTranslation } from "@/lib/LanguageContext";
 
+import MediaRenderer from "@/components/MediaRenderer";
+
 function GameCard({ game }: { game: any }) {
   const thumb = game.coverImage || `https://via.placeholder.com/180?text=${encodeURIComponent(game.name)}`;
   const linkId = game.slug || game._id || game.id;
@@ -13,15 +15,14 @@ function GameCard({ game }: { game: any }) {
       style={{ width: 72 }}
     >
       <div
-        className="w-16 h-16 rounded-xl overflow-hidden ring-2 ring-transparent group-hover:ring-primary transition-all duration-300 shadow-md"
+        className="relative w-16 h-16 rounded-xl overflow-hidden ring-2 ring-transparent group-hover:ring-primary transition-all duration-300 shadow-md"
         style={{ background: "#1a1a2e" }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <MediaRenderer
           src={thumb}
           alt={game.name}
+          fill
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-          draggable={false}
         />
       </div>
       <span className="text-[10px] font-semibold uppercase text-on-surface-variant group-hover:text-primary transition-colors text-center leading-tight w-full truncate">

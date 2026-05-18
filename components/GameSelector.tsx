@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import useSWR from "swr";
 import { Check, ChevronDown, Loader2, Search, X, Gamepad2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import MediaRenderer from "@/components/MediaRenderer";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -118,11 +119,14 @@ export default function GameSelector({
           {selectedGame ? (
             <>
               {selectedGame.coverImage ? (
-                <img
-                  src={selectedGame.coverImage}
-                  alt={selectedGame.name}
-                  className="w-7 h-7 rounded-lg object-cover border border-white/10 flex-shrink-0 shadow"
-                />
+                <div className="relative w-7 h-7 rounded-lg overflow-hidden border border-white/10 shadow flex-shrink-0">
+                  <MediaRenderer
+                    src={selectedGame.coverImage}
+                    alt={selectedGame.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               ) : (
                 <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center text-primary flex-shrink-0">
                   <Gamepad2 className="w-4 h-4" />
@@ -219,11 +223,14 @@ export default function GameSelector({
                     >
                       <div className="flex items-center gap-3 overflow-hidden">
                         {game.coverImage ? (
-                          <img
-                            src={game.coverImage}
-                            alt={game.name}
-                            className="w-8 h-8 rounded-lg object-cover border border-white/10 shadow flex-shrink-0"
-                          />
+                          <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-white/10 shadow flex-shrink-0">
+                            <MediaRenderer
+                              src={game.coverImage}
+                              alt={game.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
                         ) : (
                           <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/50 flex-shrink-0">
                             <Gamepad2 className="w-4 h-4" />
