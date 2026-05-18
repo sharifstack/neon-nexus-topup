@@ -12,16 +12,17 @@ async function getSettings() {
   return settings;
 }
 
-export async function GET(request: Request, { params }: { params: { category?: string[] } }) {
+export async function GET(request: Request, context: { params: Promise<{ category?: string[] }> }) {
   try {
     await ensureAdmin();
     await connectToDatabase();
 
     const settings = await getSettings();
+    const { category } = await context.params;
 
     // If a specific category is requested, return just that category
-    if (params.category && params.category.length > 0) {
-      const cat = params.category[0];
+    if (category && category.length > 0) {
+      const cat = category[0];
       const data = settings.get(cat);
       if (data !== undefined) {
         return NextResponse.json({ [cat]: data });
@@ -38,16 +39,17 @@ export async function GET(request: Request, { params }: { params: { category?: s
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { category?: string[] } }) {
+export async function PUT(request: Request, context: { params: Promise<{ category?: string[] }> }) {
   try {
     await ensureAdmin();
     await connectToDatabase();
 
     const body = await request.json();
     const settings = await getSettings();
+    const { category } = await context.params;
 
-    if (params.category && params.category.length > 0) {
-      const cat = params.category[0];
+    if (category && category.length > 0) {
+      const cat = category[0];
       
       // Update specific category
       if (cat === 'general') {
