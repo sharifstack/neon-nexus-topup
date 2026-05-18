@@ -63,7 +63,7 @@ export default function BannerCarousel({ banners = [] }: { banners?: Banner[] })
           </div>
 
           {/* ── RIGHT: Luxurious Premium Content Container ───────────────────── */}
-          <div className="flex-1 flex flex-col justify-end md:justify-center p-6 pb-16 md:pb-8 md:p-8 lg:p-10 relative overflow-hidden bg-transparent md:bg-[#131b2e]/90 backdrop-blur-none md:backdrop-blur-2xl border-l-0 md:border-l border-white/10 z-20 md:z-auto">
+          <div className="flex-1 flex flex-col justify-end md:justify-center p-6 pb-16 md:pb-8 md:p-8 lg:p-12 lg:pb-28 relative overflow-hidden bg-transparent md:bg-[#131b2e]/90 backdrop-blur-none md:backdrop-blur-2xl border-l-0 md:border-l border-white/10 z-20 md:z-auto">
             {/* Subtle Background Decorative Glow (Desktop) */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 hidden md:block pointer-events-none" />
             
@@ -132,9 +132,9 @@ export default function BannerCarousel({ banners = [] }: { banners?: Banner[] })
       </AnimatePresence>
 
       {/* ── Navigation Controls & Animated Progress Bar ────────────────────────────────── */}
-      <div className="absolute inset-x-0 bottom-4 md:bottom-6 flex items-center justify-between px-6 md:px-8 lg:px-12 z-30 pointer-events-none">
-        {/* Pagination Bars */}
-        <div className="flex items-center gap-1.5 pointer-events-auto bg-[#131b2e]/60 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-xl border border-white/10 shadow-md">
+      {/* Pagination Bar - Left Aligned */}
+      <div className="absolute left-6 bottom-4 md:left-8 md:bottom-6 lg:left-12 lg:bottom-10 z-30 pointer-events-auto">
+        <div className="flex items-center gap-1.5 bg-[#131b2e]/60 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-xl border border-white/10 shadow-md">
           {banners.map((_, i) => (
             <button
               key={i}
@@ -155,24 +155,24 @@ export default function BannerCarousel({ banners = [] }: { banners?: Banner[] })
             </button>
           ))}
         </div>
+      </div>
 
-        {/* Glassmorphism Navigation Arrows (Desktop/Tablet) */}
-        <div className="flex items-center gap-2 pointer-events-auto hidden md:flex">
-          <button
-            onClick={() => setCurrent((c) => (c - 1 + banners.length) % banners.length)}
-            className="w-10 h-10 rounded-xl bg-[#131b2e]/80 hover:bg-cyan-500/20 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white hover:text-cyan-400 flex items-center justify-center transition-all shadow-lg active:scale-95"
-            aria-label="Previous slide"
-          >
-            <span className="material-symbols-outlined text-xl">chevron_left</span>
-          </button>
-          <button
-            onClick={() => setCurrent((c) => (c + 1) % banners.length)}
-            className="w-10 h-10 rounded-xl bg-[#131b2e]/80 hover:bg-cyan-500/20 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white hover:text-cyan-400 flex items-center justify-center transition-all shadow-lg active:scale-95"
-            aria-label="Next slide"
-          >
-            <span className="material-symbols-outlined text-xl">chevron_right</span>
-          </button>
-        </div>
+      {/* Navigation Arrows - Tablet (Bottom-Right flow) & Desktop (Absolute Bottom-Right) */}
+      <div className="absolute right-6 bottom-4 md:right-8 md:bottom-6 lg:right-12 lg:bottom-10 z-30 pointer-events-auto hidden md:flex items-center gap-2 lg:gap-3">
+        <button
+          onClick={() => setCurrent((c) => (c - 1 + banners.length) % banners.length)}
+          className="w-10 h-10 lg:w-9 lg:h-9 rounded-xl lg:rounded-lg bg-[#131b2e]/80 hover:bg-cyan-500/20 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white hover:text-cyan-400 flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[0_4px_15px_rgba(6,182,212,0.3)] active:scale-95"
+          aria-label="Previous slide"
+        >
+          <span className="material-symbols-outlined text-xl lg:text-lg">chevron_left</span>
+        </button>
+        <button
+          onClick={() => setCurrent((c) => (c + 1) % banners.length)}
+          className="w-10 h-10 lg:w-9 lg:h-9 rounded-xl lg:rounded-lg bg-[#131b2e]/80 hover:bg-cyan-500/20 backdrop-blur-xl border border-white/10 hover:border-cyan-500/30 text-white hover:text-cyan-400 flex items-center justify-center transition-all duration-300 shadow-lg hover:shadow-[0_4px_15px_rgba(6,182,212,0.3)] active:scale-95"
+          aria-label="Next slide"
+        >
+          <span className="material-symbols-outlined text-xl lg:text-lg">chevron_right</span>
+        </button>
       </div>
     </div>
   );
